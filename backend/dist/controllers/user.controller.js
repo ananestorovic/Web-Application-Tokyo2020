@@ -17,6 +17,14 @@ class UserController {
                     res.json(user);
             });
         };
+        this.register = (req, res) => {
+            let user = new user_1.default(req.body);
+            user.save().then((user) => {
+                res.status(200).json({ 'message': 'user added' });
+            }).catch((err) => {
+                res.status(400).json({ 'message': err });
+            });
+        };
     }
 }
 exports.UserController = UserController;
