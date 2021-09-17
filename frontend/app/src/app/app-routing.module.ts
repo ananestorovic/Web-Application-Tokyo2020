@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {path: '', component: HomepageComponent},
+  {path: 'homepage', component: HomepageComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent },
   {path: 'change-your-password', component: ChangeYourPasswordComponent},

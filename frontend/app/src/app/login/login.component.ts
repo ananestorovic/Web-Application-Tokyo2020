@@ -30,38 +30,37 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  //loginError: boolean;
-  //isLoggedIn:boolean;
+  user: any = null;
+  message : string;
 
+  callback(res: any) {
 
-  message: string;
+    if (res && res.password) {
 
-  logIn(){
-    this.userService.logInService(this.username, this.password).subscribe((user:User)=>{
-      if (this.requiredFields()==false) this.message="All fields are required!"
-      else{
-        if(user){
-          if(user.approved==0) this.message="The user is waiting to be approved!";
-          else{
-            if(user.type=='Delegate'){
-            this.router.navigate(['delegate']);
-          }
-          else if (user.type=='Leader'){
-            this.router.navigate(['leader'])
-          }
-        else{
-          this.router.navigate(['organizer']);
-        }}
-          
-      }
+        localStorage.setItem('username', this.username);
+        localStorage.setItem('password', this.password)
+        this.user = res;
+        if(this.user.approved==0) this.message="The user is waiting to be approved!";
+         else{
+           localStorage.setItem('loggedIn', JSON.stringify(this.user)); //sta je ovo??
+           if(this.user.type=='Delegate'){
+           this.router.navigate(['delegate']);
+         }
+         else if (this.user.type=='Leader'){
+           this.router.navigate(['leader'])
+         }
        else{
-         
+         this.router.navigate(['organizer']);
        }
-
       }
-     //srediti one slucajeve!!!
-      
-    })
+
+
+      } else this.message = "The data entered is incorrect!";
   }
 
+
+  logIn(){
+    if (this.requiredFields()==false) this.message="All fields are required!";
+    this.userService.logInService(this.username, this.password).subscribe(res => this.callback(res));
+  }
 }
