@@ -26,48 +26,48 @@ export class RegisterComponent implements OnInit {
 
   requiredFields(): boolean{
     if(this.username == null || this.password == null || this.name==null
-      || this.surname==null || this.country==null || this.mail==null || this.type){
+      || this.surname==null || this.country==null || this.mail==null || this.type==null){
       return false;
     }else{
       return true;
     }
   }
 
-  message: string;
+  user: any = null;
+  message : string;
+
+ 
 
   register(){
-    this.userService.registerService(this.username, this.password, this.name, this.surname,
-      this.country, this.mail, this.type).subscribe((user:User)=>{
-      if (this.requiredFields()==false) this.message="All fields are required!";
-      else{
-          if(!(this.userService.checkPassword(this.password))) this.message="The password is not in the correct format!";
-          else{
-            this.userService.findUser(this.username).subscribe((user: User)=>{
-              if(user == null){
-                if(this.type.localeCompare("Vodja") == 0){
-                  this.userService.leaderAlreadyExists(this.country, this.type).subscribe((leader: User)=>{
-                    if(leader != null && leader.approved == 1){
-                      this.message = "Vec postoji vodja delegacije za odabranu zemlju!";
-                    }else{
-                      this.userService.registerService(this.username, this.password, this.name, this.surname, this.country, this.mail, this.type).subscribe(resp=>{
-                        console.log(resp);
-                        this.message = "Uspesno dodat korisnik!";
-                      })
-                    }
-                  })
-                }else{
-                  this.userService.registerService(this.username, this.password, this.name, this.surname, this.country, this.mail, this.type).subscribe(resp=>{
-                    console.log(resp);
-                    this.message = "Uspesno dodat korisnik!";
-                  })
-                }
+    if (this.requiredFields()==false) this.message="All fields are required!";
+    else{
+        if(!(this.userService.checkPassword(this.password))) this.message="The password is not in the correct format!";
+        else{
+          this.userService.findUser(this.username).subscribe((user: User)=>{
+            if(user == null){
+              if(this.type.localeCompare("Vodja") == 0){
+                this.userService.leaderAlreadyExists(this.country, this.type).subscribe((leader: User)=>{
+                  if(leader != null && leader.approved == 1){
+                    this.message = "There is already a leader of delegation for the selected country!";
+                  }else{
+                    this.userService.registerService(this.username, this.password, this.name, this.surname, this.country, this.mail, this.type).subscribe(resp=>{
+                      console.log(resp);
+                      this.message = "You have successfully registered!";
+                    })
+                  }
+                })
               }else{
-                this.message = "Korisnik vec postoji u sistemu!";
+                this.userService.registerService(this.username, this.password, this.name, this.surname, this.country, this.mail, this.type).subscribe(resp=>{
+                  console.log(resp);
+                  this.message = "You have successfully registered!";
+                })
               }
-            })
+            }else{
+              this.message = "This user already exists in the system!";
+            }
+          })
 
-          }
         }
-      })
-    }
-  }
+  }}
+    
+}

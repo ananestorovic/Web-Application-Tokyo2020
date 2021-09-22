@@ -17,7 +17,8 @@ const routes: Routes = [
   {path: 'change-your-password', component: ChangeYourPasswordComponent},
   {path: 'organizer', component: OrganizerComponent},
   {path: 'delegate', component: DelegateComponent},
-  {path: 'leader', component: LeaderComponent}
+  {path: 'leader', component: LeaderComponent},
+  {path: '**', component:HomepageComponent}
 ];
 
 @NgModule({

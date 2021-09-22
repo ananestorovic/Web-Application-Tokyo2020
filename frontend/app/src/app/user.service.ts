@@ -16,7 +16,7 @@ export class UserService {
       password: password
     }
 
-    return this.http.post(`${this.uri}/users/login`, data);
+    return this.http.post(`${this.uri}/users/loginService`, data);
   }
 
   registerService(username, password, name, surname, country, mail, type){
@@ -25,12 +25,13 @@ export class UserService {
       password: password, 
       name: name,
       surname: surname,
-      country,
+      country: country,
       mail: mail,
-      type: type
+      type: type,
+      approved: 0 
     }
 
-    return this.http.post(`${this.uri}/users/register`, data);
+    return this.http.post(`${this.uri}/users/registerService`, data);
   }
 
   checkPassword(password: string): boolean{
@@ -87,14 +88,14 @@ export class UserService {
     const data = {
       username: username
     }
-    return this.http.post(`${this.uri}/users/register`, data);
+    return this.http.post(`${this.uri}/users/ approveUser`, data);
   }
 
   findUser(username){
     const data = {
       username: username
     }
-    return this.http.post(`${this.uri}/users/register`, data);
+    return this.http.post(`${this.uri}/users/findUser`, data);
   }
 
   leaderAlreadyExists(country, type){
@@ -104,7 +105,7 @@ export class UserService {
     }
     console.log(country);
     console.log(type);
-    return this.http.post(`${this.uri}/users/register`, data);
+    return this.http.post(`${this.uri}/users/leaderAlreadyExists`, data);
   }
 }
 

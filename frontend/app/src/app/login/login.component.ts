@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('username', this.username);
         localStorage.setItem('password', this.password)
         this.user = res;
-        if(this.user.approved==0) this.message="The user is waiting to be approved!";
-         else{
-           localStorage.setItem('loggedIn', JSON.stringify(this.user)); //sta je ovo??
+        //if(this.user.approved==0) this.message="The user is waiting to be approved!";
+        // else{
+           localStorage.setItem('loggedIn', JSON.stringify(this.user)); 
            if(this.user.type=='Delegate'){
            this.router.navigate(['delegate']);
          }
@@ -52,10 +52,11 @@ export class LoginComponent implements OnInit {
        else{
          this.router.navigate(['organizer']);
        }
+     // }
+
+
       }
-
-
-      } else this.message = "The data entered is incorrect!";
+       else this.message = "The data entered is incorrect!";
   }
 
 
