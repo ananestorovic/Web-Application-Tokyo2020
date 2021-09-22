@@ -9,56 +9,12 @@
                 <th width="30%"># ATHLETES</th>
             </tr>
             <tbody>
-            <tr>
-                <th><img src="assets/flags/Serbia.webp" height="20vw"></th>
-                <th>Serbia</th>
-                <th>12</th>
+            <tr *ngFor='let c of allCountries'>
+                <th><img src="assets/flags/{{c.country}}.svg.png" height="20vw"></th>
+                <th>{{c.country}}</th>
+                <th>{{c.numberOfParticipants}}</th>
             </tr>
-            <tr>
-                <th><img src="assets/flags/Afghanistan.webp" height="20vw"></th>
-                <th>Afghanistan</th>
-                <th>8</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/Argentina.webp" height="20vw"></th>
-                <th>Argentina</th>
-                <th>52</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/Great.webp" height="20vw"></th>
-                <th>Great Britain</th>
-                <th>256</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/North.webp" height="20vw"></th>
-                <th>North Macedonia</th>
-                <th>20</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/Croatia.webp" height="20vw"></th>
-                <th>Croatia</th>
-                <th>32</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/Slovakia.webp" height="20vw"></th>
-                <th>Slovakia</th>
-                <th>40</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/China.webp" height="20vw"></th>
-                <th>China</th>
-                <th>525</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/Germany.webp" height="20vw"></th>
-                <th>Germany</th>
-                <th>452</th>
-            </tr>
-            <tr>
-                <th><img src="assets/flags/Azerbaijan.webp" height="20vw"></th>
-                <th>Azerbaijan</th>
-                <th>68</th>
-            </tr>
+           
             <tr>
                 <th colspan="3" style="text-align:center"><span></span> <input type="text" value="1" size="1" class="inputPage"> <span>></span></th>
             </tbody>
@@ -72,90 +28,18 @@
                 <th width="15%" style="color:white">BRONZE</th>
                 <th width="15%">SUM</th>
             </tr>
-            <tr>
-                <th>1.</th>
-                <th>Serbia</th>
-                <th>120</th>
-                <th>12</th>
-                <th>6</th>
-                <th>138</th>
-            </tr>
-            <tr>
-                <th>2.</th>
-                <th>Afghanistan</th>
-                <th>100</th>
-                <th>8</th>
-                <th>12</th>
-                <th>120</th>
-            </tr>
-            <tr>
-                <th>3.</th>
-                <th>Argentina</th>
-                <th>82</th>
-                <th>20</th>
-                <th>13</th>
-                <th>115</th>
-            </tr>
-            <tr>
-                <th>4.</th>
-                <th>Great Britain</th>
-                <th>70</th>
-                <th>20</th>
-                <th>10</th>
-                <th>100</th>
-            </tr>
-            <tr>
-                <th>5.</th>
-                <th>North Macedonia</th>
-                <th>65</th>
-                <th>15</th>
-                <th>18</th>
-                <th>98</th>
-            </tr>
-            <tr>
-                <th>6.</th>
-                <th>Croatia</th>
-                <th>58</th>
-                <th>22</th>
-                <th>2</th>
-                <th>92</th>
-            </tr>
-            <tr>
-                <th>7.</th>
-                <th>Slovakia</th>
-                <th>50</th>
-                <th>12</th>
-                <th>30</th>
-                <th>92</th>
-            </tr>
-            <tr>
-                <th>8.</th>
-                <th>China</th>
-                <th>48</th>
-                <th>31</th>
-                <th>21</th>
-                <th>100</th>
-            </tr>
-            <tr>
-                <th>9.</th>
-                <th>Germany</th>
-                <th>42</th>
-                <th>52</th>
-                <th>16</th>
-                <th>110</th>
-            </tr>
-            <tr>
-                <th>10.</th>
-                <th>Azerbaijan</th>
-                <th>35</th>
-                <th>45</th>
-                <th>25</th>
-                <th>105</th>
+            <tr *ngFor='let m of allMedals'>
+                <th>{{m.ranking}}</th>
+                <th>{{m.zemlja}}</th>
+                <th>{{m.brojZlatnih}}</th>
+                <th>{{m.brojSrebrnih}}</th>
+                <th>{{m.brojBronzanih}}</th>
+                <th>{{m.ukupno}}</th>
             </tr>
             <tr>
                 <th colspan="6" style="text-align:center"><span><</span> <input type="text" value="1" size="1" class="inputPage"> <span>></span></th>
         </table>
-    </div>
+
     
     <div class="header">
         <span class="linksHolder" id="linksHolder">
