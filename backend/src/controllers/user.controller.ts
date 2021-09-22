@@ -37,5 +37,18 @@ export class UserController{
                     else res.json(users);
                 })
         }
+    
+
+        changePassword = (req: express.Request, res: express.Response)=>{
+        let username = req.body.username;
+        let password= req.body.password;
+
+        console.log(username);
+        console.log(password);
+
+
+        User.collection.updateOne({'username':username},{$set:{'password':password}});
+        res.json({'message':'password changed'});
     }
+}
 

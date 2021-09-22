@@ -36,6 +36,14 @@ class UserController {
                     res.json(users);
             });
         };
+        this.changePassword = (req, res) => {
+            let username = req.body.username;
+            let password = req.body.password;
+            console.log(username);
+            console.log(password);
+            user_1.default.collection.updateOne({ 'username': username }, { $set: { 'password': password } });
+            res.json({ 'message': 'password changed' });
+        };
     }
 }
 exports.UserController = UserController;

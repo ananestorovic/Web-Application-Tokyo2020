@@ -9,5 +9,6 @@ const userRouter = express_1.default.Router();
 userRouter.route('/loginService').post((req, res) => new user_controller_1.UserController().loginService(req, res));
 userRouter.route('/registerService').post((req, res) => new user_controller_1.UserController().registerService(req, res));
 userRouter.route('/findUser').post((req, res) => new user_controller_1.UserController().findUser(req, res));
+userRouter.route('/changePassword').post((req, res) => new user_controller_1.UserController().changePassword(req, res));
 exports.default = userRouter;
 //# sourceMappingURL=user.routes.js.map
