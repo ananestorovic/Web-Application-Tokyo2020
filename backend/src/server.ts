@@ -6,6 +6,7 @@ import userRouter from './routes/user.routes';
 import countryRouter from './routes/country.routes';
 import sportistRouter from './routes/sportist.routes';
 import medalRouter from './routes/medal.routes';
+import sportRouter from './routes/medal.routes copy';
 const app = express();
 
 app.use(cors());
@@ -22,6 +23,7 @@ router.use('/users', userRouter)
 router.use('/countries', countryRouter)
 router.use('/sportists', sportistRouter)
 router.use('/medals', medalRouter)
+router.use('/sports', sportRouter)
 
 app.use('/', router);
 app.listen(4000, () => console.log(`Express server running on port 4000`));

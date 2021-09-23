@@ -22,4 +22,11 @@ export class OrganizerComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  //treba fja za odobravanje
+
+  
+
 }
+
+
+

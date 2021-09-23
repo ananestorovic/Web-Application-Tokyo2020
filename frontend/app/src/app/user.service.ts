@@ -109,5 +109,5 @@ export class UserService {
   }
 }
 
-// kako funkc ove putanje i ima li provere za mejl??
+
 

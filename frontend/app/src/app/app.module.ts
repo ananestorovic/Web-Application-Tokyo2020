@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OrganizerComponent } from './organizer/organizer.component';
 import { DelegateComponent } from './delegate/delegate.component';
 import { LeaderComponent } from './leader/leader.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LeaderComponent } from './leader/leader.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
