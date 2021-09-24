@@ -1,8 +1,7 @@
 export class Discipline{
-    idDis: number;
     sport: string;
-    disciplina: string;
-    vrsta: string;
-    minIgraca: number;
-    maxIgraca: number;
+    discipline: string;
+    type: string;
+    minNumPlayers: number;
+    maxNumPlayers: number;
 }

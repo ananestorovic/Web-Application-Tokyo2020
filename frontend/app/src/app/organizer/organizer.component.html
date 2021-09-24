@@ -1,3 +1,187 @@
-<p>organizer works!</p>
-<div><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button></div>
+<div onload="">
 
+    <div class="main">
+        <div class="loginLeft">
+
+            <input type='text' class="loginInput" size="30" placeholder="Sport" name='sport1' [(ngModel)]='sport'>
+            <br>
+            <button (click)='addSport()' class="loginButton" value="ADD SPORT"> ADD SPORT </button>
+            <hr />
+
+            <select class="loginInput" name='discipline' [(ngModel)]='choosenSport'>
+                <option [ngValue]="undefined" selected disabled>Choose sport</option>
+                <option *ngFor="let sport of allSports">{{sport.sport}}</option>
+            </select>
+            <br>
+            <input type='text' class="loginInput" size="30" placeholder="Discipline" name='discipline'
+                [(ngModel)]='discipline'>
+            <br>
+            <select class="loginInput" name='type' [(ngModel)]='type'>
+                <option [ngValue]="undefined" selected disabled>Choose type</option>
+                <option value='i'>individual sport </option>
+                <option value='t'>team sport</option>
+            </select>
+            <br>
+            <input *ngIf="type=='t'" type='text' class="loginInput" size="30" placeholder="Minimum number of players"
+                name='minNumPlayers' [(ngModel)]='minNumPlayers'>
+            <br>
+            <input *ngIf="type=='t'" type='text' class="loginInput" size="30" placeholder="Maximum number of players"
+                name='maxNumPlayers' [(ngModel)]='maxNumPlayers'>
+            <br>
+            <button (click)='addDiscipline()' class="loginButton" value="ADD DISCIPLINE"> ADD DISCIPLINE </button>
+            <hr />
+            <br>
+            <br>
+            <div><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button></div>
+        </div>
+        <div class="loginRight2">
+            <!-- ODvoji formu na levi i desni deo -->
+            <br>
+            <br>
+            <input type='string' class="loginInput" size="30" placeholder="Name competition" name='nameCompetition1'
+                [(ngModel)]='nameCompetition1'>
+            <br>
+            Sport:
+            <br>
+            <select (ngModelChange)="sportChanged($event)" class="loginInput" name='sportName '
+                [(ngModel)]='sportName '>
+                <option [ngValue]="null" selected>All sports</option>
+                <option *ngFor='let s of allIndividualSports '>{{s}}</option>
+            </select>
+
+            <br>
+            <br>
+            Discipline:
+            <br>
+            <select class="loginInput" name='disciplineName ' [(ngModel)]='disciplineName'>
+                <option [ngValue]="null" selected>All disciplines</option>
+                <option *ngFor='let d of showDisciplines '>{{d.discipline}}</option>
+            </select>
+            <br>
+            Sex:
+            <br>
+            <select class="loginInput" name='sex' [(ngModel)]="sex">
+                <option [ngValue]="null" selected disabled>Choose sex</option>
+                <option value='M'>Male</option>
+                <option value='F'>Female</option>
+            </select>
+            <br>
+
+            <br>
+            <input type='string' class="loginInput" size="30" placeholder="Start date" name='startDate'
+                [(ngModel)]='startDate'>
+            <br>
+            <input type='string' class="loginInput" size="30" placeholder="End date" name='endDate'
+                [(ngModel)]='endDate'>
+            <br>
+            Venue:
+            <br>
+
+            <select class="loginInput" name='venue ' [(ngModel)]='venue'>
+                <option [ngValue]="null" selected>All venues</option>
+                <option *ngFor='let v of allVenues '>{{v.name}}</option>
+            </select>
+
+            <div><button (click)='addVenue()' class="loginButton" value="ADD VENUE"> ADD VENUE</button></div>
+
+            <br>
+            <input type='text' class="loginInput" size="30" placeholder="Format" name='format' [(ngModel)]='format'>
+            <br>
+            Delegate:
+            <br>
+            <select class="loginInput" name='delegate ' [(ngModel)]='delegate'>
+                <option [ngValue]="null" selected>All delegates</option>
+                <option *ngFor='let g of allDelegates '>{{g.name}}</option>
+            </select>
+
+            <br>
+            <div><button (click)='incrementDelegate()' class="loginButton" value="CHOOSE THIS DELEGATE"> CHOOSE THIS
+                    DELEGATE</button></div>
+            <div><button (click)='create()' class="loginButton" value="CREATE COMPETITION"> CREATE
+                    COMPETITION</button>
+            </div>
+            <br>
+            <br>
+
+            <!-- Naredni deo je zasebna forma -->
+
+            <input type='string' class="loginInput" size="30" placeholder="Name cometition" name='nameCompetition2'
+                [(ngModel)]='nameCompetition2'>
+            <br>
+            <br>
+            <td>Competition formed:</td>
+            <td>
+                <select class="loginInput" name='formed' [(ngModel)]='formed'>
+                    <option [ngValue]="null" selected disabled>Choose</option>
+                    <option value='NO'>NO</option>
+                    <option value='YES'>YES</option>
+                </select>
+            </td>
+            <br>
+            <br>
+            <div><button (click)='closeCompetition()' class="loginButton" value="CLOSE THE COMPETITION"> CLOSE THE
+                    COMPETITION</button></div>
+            <br>
+            <br>
+
+
+     <!-- Naredni deo je zasebna forma -->
+
+
+            <td>Competition:</td>
+            <td>
+                <select class="loginInput" name='competition' [(ngModel)]='nameCompetition3'
+                    (ngModelChange)="competitionChanged($event)">
+                    <option [ngValue]="null" selected>All competitions</option>
+                    <option *ngFor='let c of allCompetitions '>{{c.name}}</option>
+                </select>
+            </td>
+            <br>
+            <td>Signed participants:</td>
+            <td>
+                <select class="loginInput" name='signedParticipant ' [(ngModel)]='signedParticipant'>
+                    <option [ngValue]="null" selected>All participants</option>
+                    <option *ngFor='let p of showParticipants'>{{p.name}}</option>
+                </select>
+            </td>
+            <div><button (click)='addParticipant()' class="loginButton" value="ADD PARTICIPANT"> ADD
+                    PARTICIPANT</button></div>
+
+
+            Approve user requests:
+            <button (click)='approve()' class="loginButton" value="APPROVE"> APPROVE </button>
+            <br>
+
+        </div>
+    </div>
+
+
+    <div class="header">
+        <span class="linksHolder" id="linksHolder">
+            <a class="headerLinks"><span id="homespan" class="linija"></span><span id="homehead"
+                    routerLink='/homepage'>HOME</span></a>
+            <a class="headerLinks"><span id="countriesspan" class="linija"></span><span
+                    id="countrieshead">COUNTRIES</span></a>
+            <a class="headerLinks"><span id="medalsspan" class="linija"></span><span id="medalshead">MEDALS</span></a>
+            <a class="headerLinks"><span id="medalsspan" class="linija"></span><span
+                    id="searchhead">ATHLETES</span></a><img src="assets/images/search.png" class="searchPng">
+        </span>
+    </div>
+
+    <div class="upperHeader">
+        <div class="decorationHolder">
+            <div class="decorationHeader"></div>
+            <div class="circleHeader"></div>
+            <div class="circleHeader2"></div>
+            <div class="circleHeader3" id="circleHeader3"></div>
+            <div class="circleHeader4"></div>
+            <div id="tokyo2020" class="tokyo2020" onclick="tokyo2020animation();">TOKYO 2020</div>
+        </div>
+        <div class="login" onmouseover="addc3(1)" onmouseout="addc3(0)"><img src="assets/images/account.png"
+                class="account">
+            <div class="logintext">LOG IN</div>
+        </div>
+        <img src="assets/images/logo_gif.gif" class="logoGif">
+    </div>
+
+</div>

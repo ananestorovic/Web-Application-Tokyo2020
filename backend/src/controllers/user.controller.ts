@@ -43,12 +43,39 @@ export class UserController{
         let username = req.body.username;
         let password= req.body.password;
 
-        console.log(username);
-        console.log(password);
-
-
         User.collection.updateOne({'username':username},{$set:{'password':password}});
         res.json({'message':'password changed'});
     }
+
+    getDelegates = (req: express.Request, res: express.Response) => {
+        User.find({'type': "Delegate"}, (err, users) => {
+            if (err) console.log(err);
+            else {
+                res.json(users);
+            }
+        })
+    }
+
+    getNotApprovedUsers=(req: express.Request, res: express.Response) => {
+    User.find({'approved':0}, (err, users) => {
+        console.log(users);
+        if (err) console.log(err);
+        else res.json(users);
+    })
+}
+
+approveUser= (req: express.Request, res: express.Response) => {
+    let username = req.body.username;
+
+    User.updateOne({ 'username': username }, { $set: { 'approved': 1 } }, (err, info) => {
+        console.log(info);
+        if (err) console.log(err);
+        else res.json(info);
+    });
+    
+}
+
+
+
 }
 

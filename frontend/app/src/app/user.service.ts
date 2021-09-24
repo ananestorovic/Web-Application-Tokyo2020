@@ -88,7 +88,7 @@ export class UserService {
     const data = {
       username: username
     }
-    return this.http.post(`${this.uri}/users/ approveUser`, data);
+    return this.http.post(`${this.uri}/users/approveUser`, data);
   }
 
   findUser(username){
@@ -107,6 +107,17 @@ export class UserService {
     console.log(type);
     return this.http.post(`${this.uri}/users/leaderAlreadyExists`, data);
   }
+
+  getDelegates(){ //moras videti nesto oko onog uslova da ih bude max 3
+    return this.http.get(`${this.uri}/users/getDelegates`);
+  }
+
+  getNotApprovedUsers(){
+    return this.http.get(`${this.uri}/users/getNotApprovedUsers`);
+
+  }
+
+
 }
 
 

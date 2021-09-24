@@ -6,7 +6,12 @@ import userRouter from './routes/user.routes';
 import countryRouter from './routes/country.routes';
 import sportistRouter from './routes/sportist.routes';
 import medalRouter from './routes/medal.routes';
-import sportRouter from './routes/medal.routes copy';
+import sportRouter from './routes/sport.routes';
+import disciplineRouter from './routes/discipline.routes';
+import venueRouter from './routes/venue.routes';
+import competitionRouter from './routes/competition.routes';
+import signedParticipantRouter from './routes/signed-participant.routes';
+import delegateRouter from './routes/delegate.routes';
 const app = express();
 
 app.use(cors());
@@ -24,6 +29,14 @@ router.use('/countries', countryRouter)
 router.use('/sportists', sportistRouter)
 router.use('/medals', medalRouter)
 router.use('/sports', sportRouter)
+router.use('/disciplines', disciplineRouter)
+router.use('/venues', venueRouter)
+router.use('/competitions', competitionRouter)
+router.use('/signedParticipants', signedParticipantRouter)
+router.use('/delegates', delegateRouter)
+
+
+
 
 app.use('/', router);
 app.listen(4000, () => console.log(`Express server running on port 4000`));

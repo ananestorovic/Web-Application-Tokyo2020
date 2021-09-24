@@ -61,6 +61,13 @@
                     <option *ngFor='let c of allCountries '>{{c.country}}</option>
                 </select>
             </td>
+            <td>Sport:</td>
+            <td>
+                <select class="loginInput" name='sport ' [(ngModel)]='sport '>
+                    <option [ngValue]="null" selected>All sports</option>
+                    <option *ngFor='let k of allSports '>{{k.sport}}</option>
+                </select>
+            </td>
         </tr>
         <button (click)='search()' class="loginButton" value="SEARCH"> SEARCH </button>
         <table class="medalsTable">

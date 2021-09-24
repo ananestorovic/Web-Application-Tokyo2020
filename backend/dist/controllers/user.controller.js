@@ -39,10 +39,36 @@ class UserController {
         this.changePassword = (req, res) => {
             let username = req.body.username;
             let password = req.body.password;
-            console.log(username);
-            console.log(password);
             user_1.default.collection.updateOne({ 'username': username }, { $set: { 'password': password } });
             res.json({ 'message': 'password changed' });
+        };
+        this.getDelegates = (req, res) => {
+            user_1.default.find({ 'type': "Delegate" }, (err, users) => {
+                if (err)
+                    console.log(err);
+                else {
+                    res.json(users);
+                }
+            });
+        };
+        this.getNotApprovedUsers = (req, res) => {
+            user_1.default.find({ 'approved': 0 }, (err, users) => {
+                console.log(users);
+                if (err)
+                    console.log(err);
+                else
+                    res.json(users);
+            });
+        };
+        this.approveUser = (req, res) => {
+            let username = req.body.username;
+            user_1.default.updateOne({ 'username': username }, { $set: { 'approved': 1 } }, (err, info) => {
+                console.log(info);
+                if (err)
+                    console.log(err);
+                else
+                    res.json(info);
+            });
         };
     }
 }

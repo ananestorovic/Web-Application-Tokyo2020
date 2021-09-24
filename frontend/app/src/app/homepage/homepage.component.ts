@@ -29,9 +29,9 @@ export class HomepageComponent implements OnInit {
     this.sportistService.getAllSportists().subscribe((data: Sportist[]) => {
       this.allSportists = data;
     })
-    /*this.sportService.getAllSports().subscribe((data: Sport[])=>{
+    this.sportService.getAllSports().subscribe((data: Sport[]) => {
       this.allSports = data;
-    })*/
+    })
     this.user = JSON.parse(localStorage.getItem('loggedIn'));
   }
 
@@ -60,7 +60,7 @@ export class HomepageComponent implements OnInit {
       })
     }
     else {
-      if (this.isEmpty(this.name) && this.country != null && this.sport != null) {
+      if (!this.isEmpty(this.name) && this.country != null && this.sport != null) {
         this.sportistService.getSportists(this.name, this.country, this.sport).subscribe((data: Sportist[]) => {
           this.allSportists = data;
         })

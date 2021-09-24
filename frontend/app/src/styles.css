@@ -367,6 +367,15 @@ tr{
 	background-position: center;
 }
 
+.loginRight2{
+	position:absolute;
+	top:0;
+	left:50%;
+	width:50%;
+	height:100%;
+	
+}
+
 .loginInput{
 	position:relative;
 	margin:0.5vw auto;

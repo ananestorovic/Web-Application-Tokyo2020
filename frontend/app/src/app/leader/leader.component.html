@@ -1,3 +1,35 @@
 <p>leader works!</p>
 <div><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button></div>
 
+<h1> Choose competition</h1>
+<select size='5' [(ngModel)]="choosenCompetision" (ngModelChange)="competitionChange($event)" name="competitions"
+  id="competitions">
+  <option value="null"> </option>
+  <option *ngFor="let oneCompetition of competitions" [ngValue]="oneCompetition">
+    {{oneCompetition.name}}
+  </option>
+</select>
+
+
+<h1> Choose sportist</h1>
+<select size='5' [(ngModel)]="choosenSportist" name="sportists" id="sportists">
+  <option value="null"> </option>
+  <option *ngFor="let oneSportist of showSportists" [ngValue]="oneSportist">
+    {{oneSportist.name}}
+  </option>
+</select>
+
+<h2 *ngIf="competitionDiscipline"> Discipline: {{competitionDiscipline}} </h2>
+<h2 *ngIf="!competitionDiscipline"> Discipline: No discipline </h2>
+
+<h4>Sport: {{competitionSport}}</h4>
+
+<hr />
+
+
+
+
+
+<button (click)="prijaviSportistu()"> Prijavi takmicara</button>
+
+{{message}}

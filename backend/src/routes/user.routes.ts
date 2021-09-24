@@ -18,4 +18,17 @@ userRouter.route('/changePassword').post(
     (req, res)=>new UserController().changePassword(req, res)
 );
 
+userRouter.route('/getDelegates').get(
+    (req, res)=>new UserController().getDelegates(req, res)
+);
+
+userRouter.route('/getNotApprovedUsers').get(
+    (req, res)=>new UserController().getNotApprovedUsers(req, res)
+);
+
+userRouter.route('/approveUser').post(
+    (req, res)=>new UserController().approveUser(req, res)
+);
+
+
 export default userRouter;
