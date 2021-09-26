@@ -1,10 +1,9 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -12,7 +11,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CompetitionController = void 0;
 const competition_1 = __importDefault(require("../models/competition"));
 class CompetitionController {
     constructor() {
@@ -37,6 +35,22 @@ class CompetitionController {
             competition_1.default.collection.updateOne({ 'name': name }, { $set: { 'formed': formed } });
             res.json({ 'message': 'competition closed' });
         };
+        this.addDateTimeFinalRound = (req, res) => {
+            let name = req.body.name;
+            let dateFinalRound = req.body.dateFinalRound;
+            let timeFinalRound = req.body.timeFinalRound;
+            competition_1.default.collection.updateOne({ 'name': name }, { $set: { 'dateFinalRound': dateFinalRound, 'timeFinalRound': timeFinalRound } });
+            res.json({ 'message': 'added' });
+        };
+        this.getCompetitionByName = (req, res) => {
+            let name = req.body.name;
+            competition_1.default.findOne({ 'name': name }, (err, users) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json(users);
+            });
+        };
     }
     getAllOpenCompetion(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -54,7 +68,6 @@ class CompetitionController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let result = yield competition_1.default.find({}).exec();
-                console.log("OVDE");
                 console.log(result);
                 res.status(200).json(result);
             }

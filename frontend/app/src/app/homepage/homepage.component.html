@@ -2,8 +2,6 @@
 
     <div class="main">
 
-
-
         <table class="countriesTable">
             <tr class="tabhead">
                 <th width="10%">FLAG</th>
@@ -18,13 +16,12 @@
                 </tr>
 
                 <tr>
-                    <th colspan="3"  style="text-align:center">
+                    <th colspan="3" style="text-align:center">
                         <ngb-pagination [(page)]="page1" [pageSize]="10" [collectionSize]="allCountries.length">
                         </ngb-pagination>
                     </th>
             </tbody>
         </table>
-
 
         <table class="medalsTable">
             <tr class="tabhead">
@@ -49,35 +46,29 @@
                     </ngb-pagination>
                 </th>
         </table>
-
-        <tr>
-
+        <div class="searchDiv" id="search">
             <input type='text' class="loginInput" size="30" placeholder="Name" name='name' [(ngModel)]='name'>
             <br>
-            <td>Country:</td>
-            <td>
-                <select class="loginInput" name='country ' [(ngModel)]='country '>
-                    <option [ngValue]="null" selected>All countries</option>
-                    <option *ngFor='let c of allCountries '>{{c.country}}</option>
-                </select>
-            </td>
-            <td>Sport:</td>
-            <td>
-                <select class="loginInput" name='sport ' [(ngModel)]='sport '>
-                    <option [ngValue]="null" selected>All sports</option>
-                    <option *ngFor='let k of allSports '>{{k.sport}}</option>
-                </select>
-            </td>
-        </tr>
-        <button (click)='search()' class="loginButton" value="SEARCH"> SEARCH </button>
-        <table class="medalsTable">
+            <select class="loginInput" name='country ' [(ngModel)]='country '>
+                <option [ngValue]="null" selected>All countries</option>
+                <option *ngFor='let c of allCountries '>{{c.country}}</option>
+            </select>
+            <br>
+            <select class="loginInput" name='sport ' [(ngModel)]='sport '>
+                <option [ngValue]="null" selected>All sports</option>
+                <option *ngFor='let k of allSports '>{{k.sport}}</option>
+            </select>
+            <br>
+            <button (click)='search()' class="loginButton" value="SEARCH"> SEARCH </button>
+        </div>
+        <table class="countriesTable">
             <tr class="tabhead">
-                <th width="10%">NAME</th>
-                <th width="30%">SEX</th>
-                <th width="15%" style="color:white">NATIONALITY</th>
-                <th width="15%" style="color:white">SPORT</th>
-                <th width="15%" style="color:white">DISCIPLINES</th>
-                <th width="15%">MEDAL COUNT</th>
+                <th width="20%">NAME</th>
+                <th width="10%">SEX</th>
+                <th width="20%" style="color:white">NATIONALITY</th>
+                <th width="20%" style="color:white">SPORT</th>
+                <th width="20%" style="color:white">DISCIPLINES</th>
+                <th width="10%">MEDAL COUNT</th>
             </tr>
             <tr *ngFor='let s of allSportists | slice: (page3-1) * 10 : (page3-1) * 10 + 10'>
                 <th>{{s.name}}</th>
@@ -88,35 +79,10 @@
                 <th>{{s.medalCount}}</th>
             </tr>
             <tr>
-                <th colspan="6" style="text-align:center"> <ngb-pagination [(page)]="page3" [pageSize]="10" [collectionSize]="allCountries.length">
-                    </ngb-pagination> </th>
+                <th colspan="6" style="text-align:center">
+                    <ngb-pagination [(page)]="page3" [pageSize]="10" [collectionSize]="allCountries.length">
+                    </ngb-pagination>
+                </th>
         </table>
-    </div>
-
-    <div class="header">
-        <span class="linksHolder" id="linksHolder">
-            <a class="headerLinks"><span id="homespan" class="linija"></span><span id="homehead">HOME</span></a>
-            <a class="headerLinks"><span id="countriesspan" class="linija"></span><span
-                    id="countrieshead">COUNTRIES</span></a>
-            <a class="headerLinks"><span id="medalsspan" class="linija"></span><span id="medalshead">MEDALS</span></a>
-            <a class="headerLinks"><span id="medalsspan" class="linija"></span><span
-                    id="searchhead">ATHLETES</span></a><img src="assets/images/search.png" class="searchPng">
-        </span>
-    </div>
-
-    <div class="upperHeader">
-        <div class="decorationHolder">
-            <div class="decorationHeader"></div>
-            <div class="circleHeader"></div>
-            <div class="circleHeader2"></div>
-            <div class="circleHeader3" id="circleHeader3"></div>
-            <div class="circleHeader4"></div>
-            <div id="tokyo2020" class="tokyo2020" onclick="tokyo2020animation();">TOKYO 2020</div>
-        </div>
-        <div class="login" onmouseover="addc3(1)" onmouseout="addc3(0)"><img src="assets/images/account.png"
-                class="account" routerLink='/login'>
-            <div class="logintext">LOG IN</div>
-        </div>
-        <img src="assets/images/logo_gif.gif" class="logoGif">
     </div>
 </div>

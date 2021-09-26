@@ -12,6 +12,8 @@ import venueRouter from './routes/venue.routes';
 import competitionRouter from './routes/competition.routes';
 import signedParticipantRouter from './routes/signed-participant.routes';
 import delegateRouter from './routes/delegate.routes';
+import resultRouter from './routes/result.routes';
+import roundRouter from './routes/round.routes';
 const app = express();
 
 app.use(cors());
@@ -34,6 +36,10 @@ router.use('/venues', venueRouter)
 router.use('/competitions', competitionRouter)
 router.use('/signedParticipants', signedParticipantRouter)
 router.use('/delegates', delegateRouter)
+router.use('/results', resultRouter)
+router.use('/rounds', roundRouter)
+
+
 
 
 

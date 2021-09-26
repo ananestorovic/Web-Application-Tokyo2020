@@ -38,6 +38,12 @@ let Competition = new Schema({
     },
     formed: {
         type: String
+    },
+    dateFinalRound: {
+        type: String
+    },
+    timeFinalRound: {
+        type: String
     }
 });
 exports.default = mongoose_1.default.model('Competition', Competition, 'competitions');

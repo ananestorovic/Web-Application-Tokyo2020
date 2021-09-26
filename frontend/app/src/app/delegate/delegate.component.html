@@ -1,3 +1,75 @@
-<p>delegate works!</p>
-<div><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button></div>
+<div class="main">
+  <div class="loginWrapper" style="height: auto; min-height: 70vh;">
+    <select name="delegateOptions" id="delegateOptions" class="organizerSelect" [(ngModel)]="choosenOption">
+      <option value="0">Select choice:</option>
+      <option value="1">Decide final round date</option>
+      <option value="2">Add competition results</option>
+      <option value="3">Additional round</option>
+      <option value="4">Final rounds</option>
+    </select>
+    <br />
+    <span *ngIf="choosenOption==1">
+      Competition:
+      <br>
+      <select class="loginInput" name='competition1' [(ngModel)]='competition1'>
+        <option [ngValue]="null" selected>Choose competition</option>
+        <option *ngFor='let c of allCompetitions '>{{c.name}}</option>
+      </select>
+      <br>
+      Start date for the final group:
+      <br>
+      <input type='date' class="loginInput" placeholder="Date" size="30" name='date' [(ngModel)]='date'>
+      &nbsp;
+      <input type='time' class="loginInput" size="30" placeholder="Time" name='time' [(ngModel)]='time'>
+      <br>
+      <div><button (click)='dateTimeFinalRound()' class="loginButton" value="ADD"> ADD </button></div>
 
+      <div class="errorMessage">
+        {{message1}}
+      </div>
+    </span>
+    <span *ngIf="choosenOption==2">
+      <select class="loginInput" (ngModelChange)="competitionChanged($event)" name='competition2'
+        [(ngModel)]='competition2'>
+        <option [ngValue]="null" selected>Competition</option>
+        <option *ngFor='let c of allCompetitions '>{{c.name}}</option>
+      </select>
+      <br>
+      <select class="loginInput" name='participant' [(ngModel)]='participant'>
+        <option [ngValue]="null" selected>Participant</option>
+        <option *ngFor='let c of showParticipants '>{{c.name}}</option>
+      </select>
+
+      <br>
+      <input type='text' class="loginInput" placeholder="Result" size="30" name='result' [(ngModel)]='result'>
+      <br>
+      <div><button (click)='addResult()' class="loginButton" value="ADD"> ADD RESULT </button></div>
+      <hr>
+      <div><button (click)='addRound()' class="loginButton" value="ADD"> DONE THIS ROUND </button></div>
+    </span>
+    <span *ngIf="choosenOption==3">
+      <div><button (click)='additionalRound()' class="loginButton" value="ADD"> DONE THIS ROUND </button></div>
+    </span>
+    <span *ngIf="choosenOption==4">
+      <select class="loginInput" (ngModelChange)="competitionFinalChanged($event)" name='competition3'
+        [(ngModel)]='competition3'>
+        <option [ngValue]="null" selected>Competition</option>
+        <option *ngFor='let c of allFinalRounds ' [ngValue]="c">{{c.competition}}</option>
+      </select>
+      <br>
+      <select class="loginInput" name='participant' [(ngModel)]='participant'>
+        <option [ngValue]="null" selected>Participant</option>
+        <option *ngFor='let c of showParticipantsFinal '>{{c}}</option>
+      </select>
+
+      <br>
+      <input type='text' class="loginInput" placeholder="Result" size="30" name='result' [(ngModel)]='result'>
+      <br>
+      <div><button (click)='addResult()' class="loginButton" value="ADD"> ADD RESULT </button></div>
+      <hr>
+      <div><button (click)='addRound()' class="loginButton" value="ADD"> DONE THIS ROUND </button></div>
+    </span>
+    <div class="fullWidth">
+      <hr><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button></div>
+  </div>
+</div>

@@ -46,6 +46,14 @@ let Competition = new Schema({
 
     formed: {
         type: String
+    },
+    
+    dateFinalRound: {
+        type: String
+    },
+
+    timeFinalRound: {
+        type: String
     }
 
 }

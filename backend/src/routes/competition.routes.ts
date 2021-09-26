@@ -27,5 +27,12 @@ competitionRouter.route('/getAllCompetition').get(
     (req, res) => new CompetitionController().getAllCompetion(req, res)
 );
 
+competitionRouter.route('/addDateTimeFinalRound').post(
+    (req, res)=>new CompetitionController().addDateTimeFinalRound(req, res)
+);
+
+competitionRouter.route('/getCompetitionByName').post(
+    (req, res)=>new CompetitionController().getCompetitionByName(req, res)
+);
 
 export default competitionRouter;

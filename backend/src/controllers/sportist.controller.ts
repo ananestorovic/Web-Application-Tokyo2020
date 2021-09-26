@@ -4,7 +4,6 @@ export class SportistController {
 
     getAllSportists = (req: express.Request, res: express.Response) => {
         Sportist.find({}, (err, sportists) => {
-            console.log(sportists);
             if (err) console.log(err);
             else res.json(sportists);
         })

@@ -11,5 +11,7 @@ competitionRouter.route('/addCompetitor').post((req, res) => new competition_con
 competitionRouter.route('/closeCompetition').post((req, res) => new competition_controller_1.CompetitionController().closeCompetition(req, res));
 competitionRouter.route('/getAllOpenCompetition').get((req, res) => new competition_controller_1.CompetitionController().getAllOpenCompetion(req, res));
 competitionRouter.route('/getAllCompetition').get((req, res) => new competition_controller_1.CompetitionController().getAllCompetion(req, res));
+competitionRouter.route('/addDateTimeFinalRound').post((req, res) => new competition_controller_1.CompetitionController().addDateTimeFinalRound(req, res));
+competitionRouter.route('/getCompetitionByName').post((req, res) => new competition_controller_1.CompetitionController().getCompetitionByName(req, res));
 exports.default = competitionRouter;
 //# sourceMappingURL=competition.routes.js.map

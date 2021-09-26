@@ -3,13 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SportistController = void 0;
 const sportist_1 = __importDefault(require("../models/sportist"));
 class SportistController {
     constructor() {
         this.getAllSportists = (req, res) => {
             sportist_1.default.find({}, (err, sportists) => {
-                console.log(sportists);
                 if (err)
                     console.log(err);
                 else

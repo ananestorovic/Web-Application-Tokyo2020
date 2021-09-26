@@ -10,4 +10,6 @@ export class Competition{
     delegate: string;
     signedParticipants: Array<String>;
     formed:string;
+    dateFinalRound: string;
+    timeFinalRound: string;
 }

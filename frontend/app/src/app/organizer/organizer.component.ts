@@ -86,12 +86,12 @@ export class OrganizerComponent implements OnInit {
   allSports: Sport[];
   allIndividualSports: Array<string>;
   allUsers: User[];
-  sportName: string;
+  sportName: string = null;
   sportObj: Sport;
   allDisciplines: Discipline[];
   showDisciplines: Discipline[];
-  disciplineName: string;
-  sex: string;
+  disciplineName: string = null;
+  sex: string = null;
   startDate: string;
   endDate: string;
   allVenues: Venue[];
@@ -114,7 +114,13 @@ export class OrganizerComponent implements OnInit {
 
 
 
-  formed: string;
+  formed: string = null;
+
+
+  ///////////////////////////////
+  choosenOption: number = 0;
+
+
 
   competitionChanged(cometitionName: string) {
     this.showParticipants = this.allParticipants.filter((oneParticipant: SignedParticipant) => {
@@ -142,7 +148,7 @@ export class OrganizerComponent implements OnInit {
           console.log(this.allIndividualSports);
         })
       })
-     
+
 
     }
     else {
@@ -169,9 +175,6 @@ export class OrganizerComponent implements OnInit {
       return oneDiscipline.sport == sportName;
     })
 
-
-
-
   }
 
 
@@ -191,12 +194,6 @@ export class OrganizerComponent implements OnInit {
 
   }
 
-  incrementDelegate() {
-    this.delegateService.incrementDelegate(this.delegate).subscribe(resp => {
-      console.log(resp);
-    })
-
-  }
 
   logOut() {
     localStorage.clear();
@@ -218,10 +215,14 @@ export class OrganizerComponent implements OnInit {
   }
 
   create() {
-    this.competitionService.addCompetition(this.nameCompetition1, this.sportName, this.disciplineName, this.sex,
-      this.startDate, this.endDate, this.venues, this.format, this.delegate, "NO").subscribe(resp => {
-        console.log(resp);
-      })
+    this.delegateService.incrementDelegate(this.delegate).subscribe(resp => {
+      this.competitionService.addCompetition(this.nameCompetition1, this.sportName, this.disciplineName, this.sex,
+        this.startDate, this.endDate, this.venues, this.format, this.delegate, "NO", "", "").subscribe(resp => {
+          console.log(resp);
+        })
+      console.log(resp);
+    })
+
 
   }
 
@@ -232,11 +233,6 @@ export class OrganizerComponent implements OnInit {
 
 
   }
-
-
-
-  //treba fja za odobravanje
-
 
 
 }

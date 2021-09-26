@@ -45,7 +45,7 @@ export class LeaderComponent implements OnInit {
 
   user: User;
 
-  choosenCompetision: Competition;
+  choosenCompetision: Competition = null;
   competitions: Competition[];
 
 

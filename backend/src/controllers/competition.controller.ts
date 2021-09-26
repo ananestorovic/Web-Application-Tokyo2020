@@ -49,7 +49,6 @@ export class CompetitionController {
     async getAllCompetion(req: express.Request, res: express.Response) {
         try {
             let result = await Competition.find({}).exec();
-            console.log("OVDE");
             console.log(result);
             res.status(200).json(result);
         } catch (exception) {
@@ -57,9 +56,24 @@ export class CompetitionController {
         }
     }
 
+    addDateTimeFinalRound= (req: express.Request, res: express.Response)=>{
+        let name= req.body.name;
+        let dateFinalRound = req.body.dateFinalRound;
+        let timeFinalRound= req.body.timeFinalRound;
 
+        Competition.collection.updateOne({'name':name},{$set:{'dateFinalRound':dateFinalRound, 'timeFinalRound':timeFinalRound}});
+        res.json({'message':'added'});
+    }
 
+    getCompetitionByName=(req: express.Request, res: express.Response)=>{
+        let name= req.body.name;
 
+        Competition.findOne({'name':name},
+                (err, users)=>{
+                    if(err) console.log(err);
+                    else res.json(users);
+                })
+        }
+    }
 
-}
 

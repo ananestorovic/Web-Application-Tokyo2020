@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CountryService } from '../country.service';
 import { MedalService } from '../medal.service';
 import { Country } from '../models/country';
@@ -9,6 +10,8 @@ import { User } from '../models/user';
 import { SportService } from '../sport.service';
 import { SportistService } from '../sportist.service';
 
+
+
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -17,7 +20,8 @@ import { SportistService } from '../sportist.service';
 export class HomepageComponent implements OnInit {
 
   constructor(private countryService: CountryService, private medalService: MedalService,
-    private sportistService: SportistService, private sportService: SportService) { }
+    private sportistService: SportistService, private sportService: SportService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.countryService.getAllCountries().subscribe((data: Country[]) => {
@@ -37,10 +41,10 @@ export class HomepageComponent implements OnInit {
 
   user: User;
 
-  allCountries: Country[];
-  allMedals: Medal[];
-  allSportists: Sportist[];
-  allSports: Sport[];
+  allCountries: Country[] = [];
+  allMedals: Medal[] = [];
+  allSportists: Sportist[] = [];
+  allSports: Sport[] = [];
   name: string;
   country: string;
   sport: string;
@@ -105,6 +109,8 @@ export class HomepageComponent implements OnInit {
 
     }
   }
+
+
 }
 
 

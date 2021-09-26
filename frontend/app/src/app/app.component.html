@@ -1,2 +1,24 @@
 
 <router-outlet></router-outlet>
+
+<div class="header">
+    <span class="linksHolder" id="linksHolder">
+    <a class="headerLinks"><span id="homespan" class="linija"></span><span id="homehead" routerLink='/homepage'>HOME</span></a>
+    <a class="headerLinks"><span id="countriesspan" class="linija"></span><span id="countrieshead">COUNTRIES</span></a>
+    <a class="headerLinks"><span id="medalsspan" class="linija"></span><span id="medalshead">MEDALS</span></a>
+    <a class="headerLinks"><span id="medalsspan" class="linija"></span><span id="searchhead">ATHLETES</span></a><img src="assets/images/search.png" class="searchPng">
+    </span>
+</div>
+
+<div class="upperHeader">
+    <div class="decorationHolder">
+        <div class="decorationHeader"></div>
+        <div class="circleHeader"></div>
+        <div class="circleHeader2"></div>
+        <div class="circleHeader3" id="circleHeader3"></div>
+        <div class="circleHeader4"></div>
+        <div id="tokyo2020" class="tokyo2020" onclick="tokyo2020animation();">TOKYO 2020</div>
+    </div>
+    <div class="login" (click)="login()" onmouseover="addc3(1)" onmouseout="addc3(0)"><img src="assets/images/account.png" class="account" ><div class="logintext">LOG IN</div></div>
+    <img src="assets/images/logo_gif.gif" class="logoGif">
+</div>
