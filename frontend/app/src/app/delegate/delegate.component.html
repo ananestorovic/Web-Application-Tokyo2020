@@ -48,6 +48,16 @@
       <div><button (click)='addRound()' class="loginButton" value="ADD"> DONE THIS ROUND </button></div>
     </span>
     <span *ngIf="choosenOption==3">
+    <select class="loginInput" name='participant' [(ngModel)]='participantAdditional'>
+      <option [ngValue]="null" selected>Participant</option>
+      <option *ngFor='let c of additionalRoundParticipants '>{{c}}</option>
+    </select>
+
+    <br>
+    <input type='text' class="loginInput" placeholder="Result" size="30" name='result' [(ngModel)]='resultAdditional'>
+    <br>
+    <div><button (click)='addResultAdditional()' class="loginButton" value="ADD"> ADD RESULT </button></div>
+    <hr>
       <div><button (click)='additionalRound()' class="loginButton" value="ADD"> DONE THIS ROUND </button></div>
     </span>
     <span *ngIf="choosenOption==4">

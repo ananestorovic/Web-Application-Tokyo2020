@@ -19,8 +19,8 @@ const signed_participant_routes_1 = __importDefault(require("./routes/signed-par
 const delegate_routes_1 = __importDefault(require("./routes/delegate.routes"));
 const result_routes_1 = __importDefault(require("./routes/result.routes"));
 const round_routes_1 = __importDefault(require("./routes/round.routes"));
-const app = express_1.default();
-app.use(cors_1.default());
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
 mongoose_1.default.connect('mongodb://localhost:27017/tokyo2020');
 const connection = mongoose_1.default.connection;

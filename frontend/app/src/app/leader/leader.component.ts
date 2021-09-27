@@ -136,12 +136,13 @@ export class LeaderComponent implements OnInit {
   }
 
   updateShowSportist() {
+    console.log(this.sportists);
     this.showSportistMaker = this.sportists;
     this.updateSportistBySex(this.competitionSex);
     this.updateSportistBySport(this.competitionSport);
     this.updateSportistByDiscipline(this.competitionDiscipline);
     this.showSportists = this.showSportistMaker;
-
+    console.log(this.showSportists);
   }
 
   logOut() {

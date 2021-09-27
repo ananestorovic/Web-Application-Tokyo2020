@@ -76,8 +76,15 @@ export class DelegateComponent implements OnInit {
   allFinalParticipants: Array<string>;
   allFinalRounds: Round[];
   showParticipantsFinal: string[];
-
   choosenOption:number=0;
+  additionalRoundParticipants: Array<string>=[];
+  duplicate: string;
+  resultAdditional: string;
+  resultsAdditional: Array<string>=[];
+  p: string;
+  participantsFromAdditional: Array<string>=[];
+  participantAdditional: string;
+  finalParticipants: Array<string>;
 
   dateTimeFinalRound() {
     console.log(this.date);
@@ -117,16 +124,6 @@ export class DelegateComponent implements OnInit {
       this.message1 = "Fill all field please";
       return;
     }
-
-    // if(this.competitionService.getCompetitionByName(this.competition2).sport=="Tennis"{}
-    // let foundParticipant = this.participants.find((oneParticipant: string) => {
-    //   return oneParticipant == this.participant;
-    // })
-
-    // if (foundParticipant != undefined) {
-    //   this.message1 = "Participant already added";
-    //   return;
-    // }
     this.resultService.addResult(this.competition2, this.participant, this.result, 0).subscribe(resp => {
       console.log(resp);
       this.results.push(this.result);
@@ -142,6 +139,14 @@ export class DelegateComponent implements OnInit {
       this.message1 = err.error.message;
     })
 
+  }
+
+  addResultAdditional(){
+   
+    this.resultsAdditional.push(this.resultAdditional);
+    this.participantsFromAdditional.push(this.participantAdditional);
+
+    //pokusaj da uklonis participante za koje si dodala
   }
 
   competitionFinalChanged(selectedFinalRound: Round) {
@@ -174,7 +179,23 @@ export class DelegateComponent implements OnInit {
     })
   }
 
-  additionalRound() { }
+  additionalRound() { 
+    this.processAditionalRound(this.competition2);
+  }
+
+  processAditionalRound(competitionName: string){
+    this.element = Math.max.apply(null, this.resultsAdditional);
+    this.index = this.resultsAdditional.indexOf(this.element);
+    this.participantsEight.push(this.participantsFromAdditional[this.index]);
+    this.roundService.addRound(competitionName, "", this.participantsEight, 1, "NO").subscribe(resp => {
+      console.log(resp);
+      this.participantsEight = [];
+      this.additionalRoundParticipants=[];
+      this.participantsFromAdditional=[];
+
+    })
+    
+  }
 
   theFirstEight(competitionName: string, numberRound: number) {
     //MORAJU DA SE OBRADE DUPLIKATI I POSALJU U ADDITIONAL ROUND
@@ -183,20 +204,51 @@ export class DelegateComponent implements OnInit {
       this.arrayPEight = data.participants;
       let i = 8;
       while (i > 0) {
-        this.element = Math.max.apply(null, this.arrayREight); //NE TREBA SVUDA MAX!!!
-        this.index = this.arrayREight.indexOf(this.element);
-        this.arrayREight.splice(this.index, 1);
-        this.participantsEight.push(this.arrayPEight[this.index]);
+        if (i==1){
+          this.element = Math.max.apply(null, this.arrayREight);
+          this.p=this.arrayPEight[this.index]
+          this.index = this.arrayREight.indexOf(this.element);
+          this.arrayREight.splice(this.index, 1);
+          this.arrayPEight.splice(this.index, 1);
+          this.duplicate= Math.max.apply(null, this.arrayREight);
+          if (this.element == this.duplicate){
+            this.additionalRoundParticipants.push(this.p);
+            this.index = this.arrayREight.indexOf(this.duplicate);
+            this.additionalRoundParticipants.push(this.arrayPEight[this.index]);
+            this.arrayREight.splice(this.index, 1);
+            this.arrayPEight.splice(this.index, 1);
+            this.duplicate= Math.max.apply(null, this.arrayREight);
+            while(this.element==this.duplicate){
+            this.index = this.arrayREight.indexOf(this.duplicate);
+            this.additionalRoundParticipants.push(this.arrayPEight[this.index]);
+            this.arrayREight.splice(this.index, 1);
+            this.arrayPEight.splice(this.index, 1);
+            this.duplicate= Math.max.apply(null, this.arrayREight);
+          }
+          this.message1="An additional round must be held!"
+         // this.processAditionalRound(competitionName, this.additionalRoundParticipants, this.participantsEight);
+          }
+          else{
+            this.participantsEight.push(this.p);
+            this.roundService.addRound(competitionName, "", this.participantsEight, 1, "NO").subscribe(resp => {
+              console.log(resp);
+              this.participantsEight = [];
+            })
+          }
+
+
+        }
+        else {
+          this.element = Math.max.apply(null, this.arrayREight); //NE TREBA SVUDA MAX!!!
+          this.index = this.arrayREight.indexOf(this.element);
+          this.arrayREight.splice(this.index, 1);
+          this.participantsEight.push(this.arrayPEight[this.index]);
+        }
         i--;
       }
-      this.roundService.addRound(competitionName, "", this.participantsEight, 1, "NO").subscribe(resp => {
-        console.log(resp);
-        this.participantsEight = [];
-      })
     })
 
   }
-
   logOut() {
     localStorage.clear();
     this.router.navigate(['']);

@@ -17,7 +17,7 @@
         {{oneSportist.name}}
       </option>
     </select>
-    <br/>
+    <br />
 
 
     <span *ngIf="choosenCompetision!=null">
@@ -27,12 +27,16 @@
       Competition discipline:
       <span *ngIf="competitionDiscipline"> {{competitionDiscipline}} </span>
       <span *ngIf="!competitionDiscipline"> No discipline </span>
-      <br/>
+      <br />
     </span>
 
 
     <button class="loginButton" (click)="prijaviSportistu()"> Prijavi takmicara</button>
-    {{message}}
+
+    <span *ngIf="message!=null">
+      <br />
+      {{message}}
+    </span>
 
 
     <hr />

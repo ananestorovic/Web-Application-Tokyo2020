@@ -63,10 +63,10 @@
             <option value='F'>Female</option>
           </select>
           <br>
-          <input type='string' class="loginInput" size="30" placeholder="Start date" name='startDate'
+          <input type='date' class="loginInput" size="30" placeholder="Start date" name='startDate'
             [(ngModel)]='startDate'>
           <br>
-          <input type='string' class="loginInput" size="30" placeholder="End date" name='endDate' [(ngModel)]='endDate'>
+          <input type='date' class="loginInput" size="30" placeholder="End date" name='endDate' [(ngModel)]='endDate'>
         </div>
         <div class="option3Left">
 
@@ -76,7 +76,7 @@
           </select>
 
           <div><button (click)='addVenue()' class="loginButton" value="ADD VENUE"> ADD VENUE</button></div>
-          <input type='text' class="loginInput" size="30" placeholder="Format" name='format' [(ngModel)]='format'>
+          <textarea class="loginInput" rows="8" cols="30" style="height: auto;max-height: fit-content;"placeholder="Format" name='format' [(ngModel)]='format'></textarea>
           <br>
           <select class="loginInput" name='delegate' [(ngModel)]='delegate'>
             <option [ngValue]="null" selected>Choose delegate</option>
