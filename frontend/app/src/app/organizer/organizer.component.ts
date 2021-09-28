@@ -98,8 +98,8 @@ export class OrganizerComponent implements OnInit {
   discipline: string = "";
   disciplines: Array<string> = [];
 
-  minNumPlayers: number;
-  maxNumPlayers: number;
+  minNumPlayers: number = 1;
+  maxNumPlayers: number = 1;
   // Competition creation
   nameCompetition1: string = "";
   sportName: string = null;
@@ -290,7 +290,7 @@ export class OrganizerComponent implements OnInit {
       this.messageAddCompetition = "Please chosoe endDate";
       return false;
     }
-    if (new Date(this.startDate) > new Date(this.endDate)) {
+    if (Date.parse(this.startDate) > Date.parse(this.endDate)) {
       this.messageAddCompetition = "Start date can not be after end date";
       return false;
     }

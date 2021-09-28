@@ -52,11 +52,13 @@ export class DelegateComponent implements OnInit {
   user: User;
 
   //unosenje datuma i vremena za finalnu rundu takmicenja
-  date: string;
-  time: string;
-  competition1: string;
+  date: string = null;
+  time: string = null;
+  competition1: Competition = null;
   allCompetitions: Competition[];
-  message1: string;
+  message1: string = null;
+
+  date_time_format: string = "YYYY-MM-DD mm:sss"
 
   //dodavanje rezultata
   competition2: string = null;
@@ -103,17 +105,64 @@ export class DelegateComponent implements OnInit {
   sportist3: Sportist;
   helpArray: Array<string>;
 
+  isOverlaped(data: Competition[]): boolean {
+    let new_date_time = Date.parse(this.date + " " + this.time);
+
+
+
+    return undefined != data.find((oneCompetition: Competition) => {
+      let date_time = Date.parse(oneCompetition.dateFinalRound + " " + oneCompetition.timeFinalRound);
+      if (oneCompetition.name == this.competition1.name) return false;
+      if (date_time == new_date_time) {
+        for (let index = 0; index < oneCompetition.venue.length; index++) {
+          const oneVenue = oneCompetition.venue[index];
+          let match = undefined != this.competition1.venue.find((anotherVenu: string) => {
+            return anotherVenu == oneVenue;
+          });
+          if (match) return true;
+        }
+      }
+      return false;
+    });
+  }
 
   dateTimeFinalRound() {
-    console.log(this.date);
-    console.log(this.time);
+    this.message1 = null;
+
+    if (this.competition1 == null) {
+      this.message1 = "Please, choose competition";
+      return;
+    }
+    if (this.date == null) {
+      this.message1 = "Please, choose date of final round";
+      return;
+    }
+    if (this.time == null) {
+      this.message1 = "Please, choose time of final round";
+      return;
+    }
+
     //USLOV DA DATUM BUDE U OKVIRU START I END DATUMA ZA TAKMICENJE
     //FJA ZA PROVERU PREKLAPANJA VREMENA I DATUMA!!
 
+    this.competitionService.getAllCompetion().subscribe((data: Competition[]) => {
+      if (this.isOverlaped(data)) {
+        this.message1 = "There is another final round at selected time, please choose new time";
+        return;
+      }
 
-    this.competitionService.addDateTimeFinalRound(this.competition1, this.date, this.time).subscribe(resp => {
-      console.log(resp);
-      this.message1 = "Successfully added!"
+      let new_date_time = Date.parse(this.date + " " + this.time);
+      let currentTime = new Date();
+
+      if (currentTime.getTime() > new_date_time) {
+        this.message1 = "Final round must be in future";
+        return;
+      }
+
+      this.competitionService.addDateTimeFinalRound(this.competition1.name, this.date, this.time).subscribe(resp => {
+        console.log(resp);
+        this.message1 = "Successfully added!"
+      })
     })
   }
 
@@ -160,7 +209,7 @@ export class DelegateComponent implements OnInit {
 
   }
 
- 
+
 
 
   // isRoundDone(competitionName: string, numberRound: number){
@@ -174,15 +223,19 @@ export class DelegateComponent implements OnInit {
 
   addRound() {
     //NE SME MANJE OD 8 rezultata
-    if (this.numOfParticipant == 0) return;
-    if (this.results.length != this.numOfParticipant) {
-      this.message1 = "You did not enter results for all competitors!";
-      return;
-    }
+    // if (this.results.length < 7) {
+    //   this.message1 = "Minimum number of result is 8!";
+    //   return;
+    // }
+    // if (this.numOfParticipant == 0) return;
+    // if (this.results.length != this.numOfParticipant) {
+    //   this.message1 = "You did not enter results for all competitors!";
+    //   return;
+    // }
     this.roundService.addRound(this.competition2, this.results, this.participants, 0, "YES").subscribe(resp => {
       console.log(resp);
       this.message1 = "Results for this round have been added!"
-      // this.theFirstEight(this.competition2, 0);
+      this.theFirstEight(this.competition2, 0);
 
     })
     this.results = [];
@@ -209,28 +262,42 @@ export class DelegateComponent implements OnInit {
     this.roundService.getRound(competitionName, numberRound).subscribe((data: Round) => {
       this.arrayREight = data.results;
       this.arrayPEight = data.participants;
-      let i = 8;
+      let i = data.results.length;
       while (i > 0) {
         if (i == 1) {
           this.element = Math.max.apply(null, this.arrayREight);
-          this.p = this.arrayPEight[this.index]
           this.index = this.arrayREight.indexOf(this.element);
+          this.p = this.arrayPEight[this.index];
           this.arrayREight.splice(this.index, 1);
           this.arrayPEight.splice(this.index, 1);
-          this.duplicate = Math.max.apply(null, this.arrayREight);
+
+
+          if (this.arrayREight.length != 0)
+            this.duplicate = Math.max.apply(null, this.arrayREight);
+          else this.duplicate = null;
+
+
           if (this.element == this.duplicate) {
             this.additionalRoundParticipants.push(this.p);
+
             this.index = this.arrayREight.indexOf(this.duplicate);
             this.additionalRoundParticipants.push(this.arrayPEight[this.index]);
             this.arrayREight.splice(this.index, 1);
             this.arrayPEight.splice(this.index, 1);
-            this.duplicate = Math.max.apply(null, this.arrayREight);
+
+            if (this.arrayREight.length != 0)
+              this.duplicate = Math.max.apply(null, this.arrayREight);
+            else this.duplicate = null;
+
             while (this.element == this.duplicate) {
               this.index = this.arrayREight.indexOf(this.duplicate);
               this.additionalRoundParticipants.push(this.arrayPEight[this.index]);
               this.arrayREight.splice(this.index, 1);
               this.arrayPEight.splice(this.index, 1);
-              this.duplicate = Math.max.apply(null, this.arrayREight);
+
+              if (this.arrayREight.length != 0)
+                this.duplicate = Math.max.apply(null, this.arrayREight);
+              else this.duplicate = null;
             }
             this.message1 = "An additional round must be held!"
             // this.processAditionalRound(competitionName, this.additionalRoundParticipants, this.participantsEight);
@@ -246,8 +313,10 @@ export class DelegateComponent implements OnInit {
         else {
           this.element = Math.max.apply(null, this.arrayREight); //NE TREBA SVUDA MAX!!!
           this.index = this.arrayREight.indexOf(this.element);
-          this.arrayREight.splice(this.index, 1);
           this.participantsEight.push(this.arrayPEight[this.index]);
+          this.arrayREight.splice(this.index, 1);
+          this.arrayPEight.splice(this.index, 1);
+
         }
         i--;
       }
@@ -332,7 +401,7 @@ export class DelegateComponent implements OnInit {
     this.roundService.getRound(selectedFinalRound.competition, 1).subscribe((round: Round) => {
       this.showParticipantsFinal = round.participants;
     })
-   
+
   }
 
 

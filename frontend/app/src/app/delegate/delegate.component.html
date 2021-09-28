@@ -13,7 +13,7 @@
       <br>
       <select class="loginInput" name='competition1' [(ngModel)]='competition1'>
         <option [ngValue]="null" selected>Choose competition</option>
-        <option *ngFor='let c of allCompetitions '>{{c.name}}</option>
+        <option [ngValue]='c' *ngFor='let c of allCompetitions '>{{c.name}}</option>
       </select>
       <br>
       Start date for the final group:
