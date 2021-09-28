@@ -28,7 +28,7 @@ export class RoundService {
       competition: competition,
       numRound: numRound
     }
-    return this.http.post(`${this.uri}/rounds/addRound`, data);
+    return this.http.post(`${this.uri}/rounds/getRound`, data);
   }
 
   doneRound(competition, numRound){

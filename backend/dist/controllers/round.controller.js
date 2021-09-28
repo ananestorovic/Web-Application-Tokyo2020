@@ -20,7 +20,7 @@ class RoundController {
         this.getRound = (req, res) => {
             let competition = req.body.competition;
             let numRound = req.body.numRound;
-            round_1.default.findOne({ 'competition': competition }, { 'numRound': numRound }, (err, rounds) => {
+            round_1.default.findOne({ 'competition': competition, 'numRound': numRound }, (err, rounds) => {
                 if (err)
                     console.log(err);
                 else

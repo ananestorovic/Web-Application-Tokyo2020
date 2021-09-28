@@ -24,7 +24,7 @@ export class RoundController {
         let competition = req.body.competition;
         let numRound = req.body.numRound;
 
-        Round.findOne({'competition':competition}, {'numRound': numRound},
+        Round.findOne({'competition':competition, 'numRound': numRound},
             (err, rounds)=>{
                 if(err) console.log(err);
                 else res.json(rounds);
