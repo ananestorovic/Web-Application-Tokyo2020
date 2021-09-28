@@ -34,11 +34,11 @@
             </tr>
             <tr *ngFor='let m of allMedals | slice: (page2-1) * 10 : (page2-1) * 10 + 10'>
                 <th>{{m.ranking}}</th>
-                <th>{{m.zemlja}}</th>
-                <th>{{m.brojZlatnih}}</th>
-                <th>{{m.brojSrebrnih}}</th>
-                <th>{{m.brojBronzanih}}</th>
-                <th>{{m.ukupno}}</th>
+                <th>{{m.country}}</th>
+                <th>{{m.numGold}}</th>
+                <th>{{m.numSilver}}</th>
+                <th>{{m.numBronze}}</th>
+                <th>{{m.sum}}</th>
             </tr>
             <tr>
                 <th colspan="6" style="text-align:center">

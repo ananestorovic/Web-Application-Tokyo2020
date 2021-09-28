@@ -4,22 +4,19 @@ const Schema = mongoose.Schema;
 
 let Medal = new Schema(
     {
-        ranking: {
-            type: Number
-        },
-        zemlja: {
+        country: {
             type: String
         },
-        brojZlatnih: {
+        numGold: {
             type: Number
         },
-        brojSrebrnih: {
+        numSilver: {
             type: Number
         },
-        brojBronzanih: {
+        numBronze: {
             type: Number
         },
-        ukupno: {
+        sum: {
             type: Number
         }
     }

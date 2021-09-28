@@ -10,23 +10,26 @@ export class MedalController {
         })
     }
 
-    updateGold= (req: express.Request, res: express.Response) => {
+    updateGold = (req: express.Request, res: express.Response) => {
+        console.log("TELO" + req.body.country);
         let country = req.body.country;
-    Medal.collection.updateOne({'country':country},{$inc:{'numGold':1 }});
-    res.json({'message':'gold inc'});
-}
+        Medal.collection.updateOne({ 'country': country }, { $inc: { 'numGold': 1, 'sum': 1 } });
+        res.json({ 'message': 'gold inc' });
+    }
 
-    updateSilver= (req: express.Request, res: express.Response) => {
+    updateSilver = (req: express.Request, res: express.Response) => {
+        console.log("TELO" + req.body.country);
         let country = req.body.country;
-    Medal.collection.updateOne({'country':country},{$inc:{'numSilver':1 }});
-    res.json({'message':'silver inc'});
-}
+        Medal.collection.updateOne({ 'country': country }, { $inc: { 'numSilver': 1, 'sum': 1 } });
+        res.json({ 'message': 'silver inc' });
+    }
 
 
-    updateBronze= (req: express.Request, res: express.Response) => {
+    updateBronze = (req: express.Request, res: express.Response) => {
+        console.log("TELO" + req.body.country);
         let country = req.body.country;
-    Medal.collection.updateOne({'country':country},{$inc:{'numBronze':1 }});
-    res.json({'message':'silver inc'});
-}
+        Medal.collection.updateOne({ 'country': country }, { $inc: { 'numBronze': 1, 'sum': 1 } });
+        res.json({ 'message': 'silver inc' });
+    }
 
 }

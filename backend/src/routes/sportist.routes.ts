@@ -35,6 +35,11 @@ sportistRouter.route('/getSportistsByName').post(
     (req, res)=>new SportistController().getSportistsByName(req,res)
 );
 
+sportistRouter.route('/getSportistByName').post(
+    (req, res)=>new SportistController().getSportistByName(req,res)
+);
+
+
 sportistRouter.route('/updateMedalCount').post(
     (req, res)=>new SportistController().updateMedalCount(req,res)
 );

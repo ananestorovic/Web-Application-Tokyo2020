@@ -28,7 +28,15 @@ export class HomepageComponent implements OnInit {
       this.allCountries = data;
     })
     this.medalService.getAllMedals().subscribe((data: Medal[]) => {
+      console.log(data);
       this.allMedals = data;
+      data.sort((firstMedal: Medal, secondMedal: Medal) => {
+        return secondMedal.sum - firstMedal.sum;
+      });
+      let rank = 1;
+      data.forEach((oneMedal: Medal) => {
+        oneMedal.ranking = rank++;
+      })
     })
     this.sportistService.getAllSportists().subscribe((data: Sportist[]) => {
       this.allSportists = data;
@@ -42,6 +50,7 @@ export class HomepageComponent implements OnInit {
   user: User;
 
   allCountries: Country[] = [];
+  showMedals: Medal[] = [];
   allMedals: Medal[] = [];
   allSportists: Sportist[] = [];
   allSports: Sport[] = [];

@@ -19,7 +19,7 @@ class RoundController {
         this.getRound = (req, res) => {
             let competition = req.body.competition;
             let numRound = req.body.numRound;
-            round_1.default.findOne({ 'competition': competition }, { 'numRound': numRound }, (err, rounds) => {
+            round_1.default.findOne({ 'competition': competition, 'numRound': numRound }, (err, rounds) => {
                 if (err)
                     console.log(err);
                 else
@@ -33,12 +33,20 @@ class RoundController {
             res.json({ 'message': 'round closed' });
         };
         this.getFinalRounds = (req, res) => {
-            round_1.default.find({ 'isFinal': "YES", 'numRound': 1 }, (err, rounds) => {
+            round_1.default.find({ 'numRound': 1 }, (err, rounds) => {
                 if (err)
                     console.log(err);
                 else
                     res.json(rounds);
             });
+        };
+        this.updateFinalRound = (req, res) => {
+            let competition = req.body.competition;
+            let results = req.body.results;
+            let participants = req.body.participants;
+            let numRound = req.body.numRound;
+            round_1.default.collection.updateOne({ 'competition': competition, 'numRound': numRound }, { $set: { 'results': results, 'participants': participants } });
+            res.json({ 'message': 'final round update' });
         };
     }
 }

@@ -18,7 +18,6 @@ roundRouter.route('/doneRound').post(
 roundRouter.route('/getFinalRounds').get(
     (req, res)=>new RoundController().getFinalRounds(req,res)
 );
-
 roundRouter.route('/updateFinalRound').post(
     (req, res)=>new RoundController().updateFinalRound(req,res)
 );

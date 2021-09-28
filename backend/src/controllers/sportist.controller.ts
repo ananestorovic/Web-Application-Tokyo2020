@@ -54,6 +54,15 @@ export class SportistController {
         })
     }
 
+
+    getSportistByName = (req: express.Request, res: express.Response) => {
+        let name = req.body.name;
+        Sportist.findOne({ 'name': name }, (err, sportists) => {
+            if (err) console.log(err);
+            else res.json(sportists);
+        })
+    }
+
     getSportistsByCountry = (req: express.Request, res: express.Response) => {
         let country = req.body.country;
         console.log(country);
@@ -72,10 +81,11 @@ export class SportistController {
         })
     }
 
-    updateMedalCount= (req: express.Request, res: express.Response) => {
+    updateMedalCount = (req: express.Request, res: express.Response) => {
         let name = req.body.name;
-    Sportist.collection.updateOne({'name':name},{$inc:{'medalCount':1 }});
-    res.json({'message':'medal count increment'});
-}
+        console.log(req.body.name);
+        Sportist.collection.updateOne({ 'name': name }, { $inc: { 'medalCount': 1 } });
+        res.json({ 'message': 'medal count increment' });
+    }
 
 }

@@ -64,6 +64,15 @@ class SportistController {
                     res.json(sportists);
             });
         };
+        this.getSportistByName = (req, res) => {
+            let name = req.body.name;
+            sportist_1.default.findOne({ 'name': name }, (err, sportists) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json(sportists);
+            });
+        };
         this.getSportistsByCountry = (req, res) => {
             let country = req.body.country;
             console.log(country);
@@ -83,6 +92,12 @@ class SportistController {
                 else
                     res.json(sportists);
             });
+        };
+        this.updateMedalCount = (req, res) => {
+            let name = req.body.name;
+            console.log(req.body.name);
+            sportist_1.default.collection.updateOne({ 'name': name }, { $inc: { 'medalCount': 1 } });
+            res.json({ 'message': 'medal count increment' });
         };
     }
 }

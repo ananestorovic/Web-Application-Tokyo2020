@@ -46,16 +46,16 @@
       <div><button (click)='addRound()' class="loginButton" value="ADD round"> DONE THIS ROUND </button></div>
     </span>
     <span *ngIf="choosenOption==3">
-    <select class="loginInput" name='participant' [(ngModel)]='participantAdditional'>
-      <option [ngValue]="null" selected>Participant</option>
-      <option *ngFor='let c of additionalRoundParticipants '>{{c}}</option>
-    </select>
+      <select class="loginInput" name='participant' [(ngModel)]='participantAdditional'>
+        <option [ngValue]="null" selected>Participant</option>
+        <option *ngFor='let c of additionalRoundParticipants '>{{c}}</option>
+      </select>
 
-    <br>
-    <input type='text' class="loginInput" placeholder="Result" size="30" name='result' [(ngModel)]='resultAdditional'>
-    <br>
-    <div><button (click)='addResultAdditional()' class="loginButton" value="ADD"> ADD RESULT </button></div>
-    <hr>
+      <br>
+      <input type='text' class="loginInput" placeholder="Result" size="30" name='result' [(ngModel)]='resultAdditional'>
+      <br>
+      <div><button (click)='addResultAdditional()' class="loginButton" value="ADD"> ADD RESULT </button></div>
+      <hr>
       <div><button (click)='additionalRound()' class="loginButton" value="ADD"> DONE THIS ROUND </button></div>
       <br>
       <div><button (click)='additionalRoundFinal()' class="loginButton" value="ADD"> DONE FINAL ROUND </button></div>
@@ -68,22 +68,23 @@
         <option *ngFor='let c of allFinalRounds' [ngValue]="c">{{c.competition}}</option>
       </select>
       <br>
-      <select class="loginInput" name='participant' [(ngModel)]='participant'>
+      <select class="loginInput" name='participant' [(ngModel)]='finalParticipant'>
         <option [ngValue]="null" selected>Participant</option>
         <option *ngFor='let c of showParticipantsFinal '>{{c}}</option>
       </select>
 
       <br>
-      <input type='text' class="loginInput" placeholder="Result" size="30" name='result' [(ngModel)]='result'>
+      <input type='text' class="loginInput" placeholder="Result" size="30" name='result' [(ngModel)]='finalResult'>
       <br>
       <div><button (click)='addResultFinal()' class="loginButton" value="ADD"> ADD RESULT </button></div>
       <hr>
       <div><button (click)='doneFinalRound()' class="loginButton" value="ADD"> DONE FINAL </button></div>
     </span>
     <div class="fullWidth">
-      <hr><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button></div>
-      <div class="errorMessage">
-        {{message1}}
-      </div>
+      <hr><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button>
+    </div>
+    <div class="errorMessage">
+      {{message1}}
+    </div>
   </div>
 </div>

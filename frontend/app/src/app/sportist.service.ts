@@ -17,6 +17,14 @@ export class SportistService {
     return this.http.post(`${this.uri}/sportists/getSportistsByName`, data);
   }
 
+
+  getSportistByName(name){
+    const data = {
+      name: name
+    }
+    return this.http.post(`${this.uri}/sportists/getSportistByName`, data);
+  }
+
   getSportistsByCountry(country){
     const data = {
       country: country

@@ -10,5 +10,6 @@ roundRouter.route('/addRound').post((req, res) => new round_controller_1.RoundCo
 roundRouter.route('/getRound').post((req, res) => new round_controller_1.RoundController().getRound(req, res));
 roundRouter.route('/doneRound').post((req, res) => new round_controller_1.RoundController().doneRound(req, res));
 roundRouter.route('/getFinalRounds').get((req, res) => new round_controller_1.RoundController().getFinalRounds(req, res));
+roundRouter.route('/updateFinalRound').post((req, res) => new round_controller_1.RoundController().updateFinalRound(req, res));
 exports.default = roundRouter;
 //# sourceMappingURL=round.routes.js.map
