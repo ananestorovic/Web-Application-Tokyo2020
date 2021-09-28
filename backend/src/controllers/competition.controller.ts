@@ -3,13 +3,20 @@ import Competition from '../models/competition'
 
 export class CompetitionController {
 
-    addCompetition = (req: express.Request, res: express.Response) => {
-        console.log(req.body);
+    addCompetition = async (req: express.Request, res: express.Response) => {
+
+        let foundCompetition = await Competition.findOne({ name: req.body.name }).exec();
+
+        if (foundCompetition != null) {
+            res.status(400).json({ "message": "Competition with specified name already exists" });
+            return;
+        }
+
         let competition = new Competition(req.body);
 
 
         competition.save().then((competition) => {
-            res.status(200).json({ 'message': 'competition added' });
+            res.status(200).json({ 'message': 'Competition successfully added' });
         }).catch((err) => {
             res.status(400).json({ 'message': err });
         })
@@ -23,15 +30,15 @@ export class CompetitionController {
         let signedParticipant = req.body.signedParticipant;
 
         Competition.collection.updateOne({ 'name': name }, { $addToSet: { 'signedParticipants': signedParticipant } });
-        res.json({ 'message': 'competitor added' });
+        res.json({ 'message': 'Competitor successfully added' });
     }
 
-    closeCompetition = (req: express.Request, res: express.Response) => {
+    changeCompetitionStatus = (req: express.Request, res: express.Response) => {
         let name = req.body.name;
         let formed = req.body.formed;
 
         Competition.collection.updateOne({ 'name': name }, { $set: { 'formed': formed } });
-        res.json({ 'message': 'competition closed' });
+        res.json({ 'message': 'Competition status successfully updated' });
     }
 
 
@@ -56,24 +63,24 @@ export class CompetitionController {
         }
     }
 
-    addDateTimeFinalRound= (req: express.Request, res: express.Response)=>{
-        let name= req.body.name;
+    addDateTimeFinalRound = (req: express.Request, res: express.Response) => {
+        let name = req.body.name;
         let dateFinalRound = req.body.dateFinalRound;
-        let timeFinalRound= req.body.timeFinalRound;
+        let timeFinalRound = req.body.timeFinalRound;
 
-        Competition.collection.updateOne({'name':name},{$set:{'dateFinalRound':dateFinalRound, 'timeFinalRound':timeFinalRound}});
-        res.json({'message':'added'});
+        Competition.collection.updateOne({ 'name': name }, { $set: { 'dateFinalRound': dateFinalRound, 'timeFinalRound': timeFinalRound } });
+        res.json({ 'message': 'added' });
     }
 
-    getCompetitionByName=(req: express.Request, res: express.Response)=>{
-        let name= req.body.name;
+    getCompetitionByName = (req: express.Request, res: express.Response) => {
+        let name = req.body.name;
 
-        Competition.findOne({'name':name},
-                (err, users)=>{
-                    if(err) console.log(err);
-                    else res.json(users);
-                })
-        }
+        Competition.findOne({ 'name': name },
+            (err, users) => {
+                if (err) console.log(err);
+                else res.json(users);
+            })
     }
+}
 
 

@@ -21,12 +21,13 @@
 
 
     <span *ngIf="choosenCompetision!=null">
-
       Competition sport: {{competitionSport}}
       <br />
       Competition discipline:
       <span *ngIf="competitionDiscipline"> {{competitionDiscipline}} </span>
       <span *ngIf="!competitionDiscipline"> No discipline </span>
+      <br />
+      Competition gender: {{competitionSex}}
       <br />
     </span>
 

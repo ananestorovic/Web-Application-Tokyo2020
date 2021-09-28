@@ -5,10 +5,10 @@ export class Competition{
     sex: string;
     startDate: string;
     endDate: string;
-    venue: Array<String>;
+    venue: Array<string>;
     format: string;
     delegate: string;
-    signedParticipants: Array<String>;
+    signedParticipants: Array<string>;
     formed:string;
     dateFinalRound: string;
     timeFinalRound: string;

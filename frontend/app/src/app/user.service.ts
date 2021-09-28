@@ -112,8 +112,8 @@ export class UserService {
     return this.http.get(`${this.uri}/users/getDelegates`);
   }
 
-  getNotApprovedUsers(){
-    return this.http.get(`${this.uri}/users/getNotApprovedUsers`);
+  getNotApprovedUsers(type:string){
+    return this.http.get(`${this.uri}/users/getNotApprovedUsers/${type}`);
 
   }
 

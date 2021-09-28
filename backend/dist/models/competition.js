@@ -31,7 +31,7 @@ let Competition = new Schema({
         type: String
     },
     delegate: {
-        type: String
+        type: [String]
     },
     signedParticipants: {
         type: Array

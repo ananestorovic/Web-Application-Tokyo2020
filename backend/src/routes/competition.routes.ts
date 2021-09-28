@@ -14,8 +14,8 @@ competitionRouter.route('/addCompetitor').post(
     (req, res)=>new CompetitionController().addCompetitor(req, res)
 );
 
-competitionRouter.route('/closeCompetition').post(
-    (req, res)=>new CompetitionController().closeCompetition(req, res)
+competitionRouter.route('/changeCompetitionStatus').post(
+    (req, res)=>new CompetitionController().changeCompetitionStatus(req, res)
 );
 
 competitionRouter.route('/getAllOpenCompetition').get(

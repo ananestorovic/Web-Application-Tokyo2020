@@ -22,7 +22,17 @@ export class LeaderComponent implements OnInit {
   constructor(private router: Router, private sportistService: SportistService,
     private sportService: SportService,
     private competitionService: CompetitionService,
-    private signParticipantService: SignedParticipantService) { }
+    private signParticipantService: SignedParticipantService) { 
+
+
+      let user: User = JSON.parse(localStorage.getItem("loggedIn"));
+      console.log(user);
+      
+      if (user == null || user.type != "Leader") {
+        this.router.navigate(['homepage']);
+      }
+  
+    }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('loggedIn'));

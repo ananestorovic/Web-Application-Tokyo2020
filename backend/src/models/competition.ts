@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 let Competition = new Schema({
 
-    name:{
+    name: {
         type: String
     },
 
@@ -37,7 +37,7 @@ let Competition = new Schema({
     },
 
     delegate: {
-        type: String
+        type: [String]
     },
 
     signedParticipants: {
@@ -47,7 +47,7 @@ let Competition = new Schema({
     formed: {
         type: String
     },
-    
+
     dateFinalRound: {
         type: String
     },

@@ -38,12 +38,12 @@ export class CompetitionService {
     return this.http.post(`${this.uri}/competitions/addCompetitor`, data);
   }
 
-  closeCompetition(name, formed ){
+  changeCompetitionStatus(name, formed ){
     const data = {
       name: name,
       formed: formed
     }
-    return this.http.post(`${this.uri}/competitions/closeCompetition`, data);
+    return this.http.post(`${this.uri}/competitions/changeCompetitionStatus`, data);
   }
 
 

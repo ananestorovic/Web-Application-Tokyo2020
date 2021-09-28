@@ -1,145 +1,198 @@
 <div class="main">
-    <div class="loginWrapper" style="height: auto; min-height: 70vh;">
-      <select name="organizerOptions" id="organizerOptions" class="organizerSelect" [(ngModel)]="choosenOption">
-        <option value="0">Select choice:</option>
-        <option value="1"> Make new sport </option>
-        <option value="2"> Add discipline to sport</option>
-        <option value="3">Create new competition</option>
-        <option value="4">Close competition</option>
-        <option value="5">Add participants to competition</option>
-        <option value="6">Aprove all users</option>
+  <div class="loginWrapper" style="height: auto; min-height: 70vh;">
+    <select name="organizerOptions" id="organizerOptions" class="organizerSelect loginInput"
+      [(ngModel)]="choosenOption">
+      <option value="0">Select choice:</option>
+      <option value="1"> Make new sport </option>
+      <option value="2"> Add discipline to sport</option>
+      <option value="3">Create new competition</option>
+      <option value="4">Change competition status</option>
+      <option value="5">Add participants to competition</option>
+      <option value="6">Aprove users</option>
+    </select>
+    <br />
+    <span *ngIf="choosenOption==1">
+
+      <input type='text' class="loginInput" size="30" placeholder="Sport" name='sport1' [(ngModel)]='sport'>
+      <br>
+      <button (click)='addSport()' class="loginButton" value="ADD SPORT"> ADD SPORT </button>
+      <span *ngIf="messageAddSport!=null">
+        <br />
+        {{messageAddSport}}
+      </span>
+
+    </span>
+    <span *ngIf="choosenOption==2">
+      <select class="loginInput" name='discipline' [(ngModel)]='choosenSport'>
+        <option [ngValue]="null" selected disabled>Choose sport</option>
+        <option *ngFor="let sport of allSports">{{sport.sport}}</option>
+      </select>
+      <br>
+      <input type='text' class="loginInput" size="30" placeholder="Discipline" name='discipline'
+        [(ngModel)]='discipline'>
+      <br>
+      <select class="loginInput" name='type' [(ngModel)]='choosenType'>
+        <option [ngValue]="null" selected disabled>Choose type</option>
+        <option value='i'>individual sport </option>
+        <option value='t'>team sport</option>
+      </select>
+      <br>
+      <span *ngIf="choosenType=='t'">
+        <input type='text' class="loginInput" type='number' size="30" placeholder="Minimum number of players"
+          name='minNumPlayers' [(ngModel)]='minNumPlayers'>
+        <br />
+      </span>
+
+      <span *ngIf="choosenType=='t'">
+        <input *ngIf="choosenType=='t'" type='number' class="loginInput" size="30"
+          placeholder="Maximum number of players" name='maxNumPlayers' [(ngModel)]='maxNumPlayers'>
+        <br />
+      </span>
+      <button (click)='addDiscipline()' class="loginButton" value="ADD DISCIPLINE"> ADD DISCIPLINE </button>
+
+      <span *ngIf="messageAddDiscipline!=null">
+        <br />
+        {{messageAddDiscipline}}
+      </span>
+    </span>
+
+    <span *ngIf="choosenOption==3">
+      <div class="option3Left">
+        <input type='string' class="loginInput" size="30" placeholder="Name competition" name='nameCompetition1'
+          [(ngModel)]='nameCompetition1'>
+        <br>
+
+        <select (ngModelChange)="sportChanged($event)" class="loginInput" name='sportName' [(ngModel)]='sportName'>
+          <option [ngValue]="null" selected disabled> Choose sport</option>
+          <option *ngFor='let s of allIndividualSports'>{{s}}</option>
+        </select>
+        <br />
+        <select class="loginInput" name='disciplineName' [(ngModel)]='disciplineName'>
+          <option [ngValue]="null" selected disabled>Choose discipline</option>
+          <option *ngFor='let d of showDisciplines'>{{d.discipline}}</option>
+        </select>
+        <br>
+        <select class="loginInput" name='sex' [(ngModel)]="sex">
+          <option [ngValue]="null" selected disabled>Choose gender</option>
+          <option value='M'>Male</option>
+          <option value='F'>Female</option>
+        </select>
+        <br>
+        <input type='date' class="loginInput" size="30" placeholder="Start date" name='startDate'
+          [(ngModel)]='startDate'>
+        <br>
+        <input type='date' class="loginInput" size="30" placeholder="End date" name='endDate' [(ngModel)]='endDate'>
+      </div>
+      <div class="option3Left">
+
+        <select class="loginInput" name='venue' [(ngModel)]='venue'>
+          <option [ngValue]="null" selected disabled>Choose venue</option>
+          <option *ngFor='let v of showVenues'>{{v.name}}</option>
+        </select>
+
+        <div><button (click)='addVenue()' class="loginButton" value="ADD VENUE"> ADD VENUE</button></div>
+        <textarea class="loginInput" rows="5" cols="30" style="height: auto;max-height: fit-content;"
+          placeholder="Format" name='format' [(ngModel)]='format'></textarea>
+        <br>
+        <select class="loginInput" name='delegate' [(ngModel)]='delegate'>
+          <option [ngValue]="null" selected>Choose delegate</option>
+          <option *ngFor='let g of showDelegates'>{{g.name}}</option>
+        </select>
+        <div><button (click)='addDelegate()' class="loginButton" value="ADD DELEGATE"> ADD DELEGATE</button></div>
+      </div>
+
+      <div class="fullWidth">
+        <button (click)='create()' class="loginButton" value="CREATE COMPETITION">
+          CREATE
+          COMPETITION</button>
+        <br />
+        <span *ngIf="messageAddCompetition!=null">
+          {{messageAddCompetition}}
+
+        </span>
+      </div>
+
+    </span>
+    <span *ngIf="choosenOption==4">
+      <select class="loginInput" name="competitionToClose" id="competitionToClose" [(ngModel)]='nameCompetition2'>
+        <option [ngValue]="null" selected disabled> Choose competition</option>
+        <option *ngFor="let competition of allCompetitions">
+          {{competition.name}}
+        </option>
+      </select>
+
+      <br>
+      <select class="loginInput" name='formed' id="formed" [(ngModel)]='formed'>
+        <option [ngValue]="null" selected disabled>Changde competition status</option>
+        <option value='NO'>Open competition</option>
+        <option value='YES'>Close competition</option>
+      </select>
+
+      <br>
+      <div><button (click)='changeCompetitionStatus()' class="loginButton" value="Change competition status"> Change
+          competition status </button></div>
+
+      <span *ngIf="messageChangeComeprtitionStatus!=null">
+        {{messageChangeComeprtitionStatus}}
+        <br />
+      </span>
+    </span>
+
+    <span *ngIf="choosenOption==5">
+
+      <select class="loginInput" name='competition' [(ngModel)]='nameCompetition3'
+        (ngModelChange)="competitionChanged($event)">
+        <option [ngValue]="null" selected>Choose competition</option>
+        <option *ngFor='let c of allCompetitions'>{{c.name}}</option>
+      </select>
+
+      <br>
+      <select class="loginInput" name='signedParticipant' [(ngModel)]='signedParticipant'>
+        <option [ngValue]="null" selected disabled>Choose participant</option>
+        <option *ngFor='let p of showParticipants'>{{p.name}}</option>
+      </select>
+
+      <div>
+        <button (click)='addParticipant()' class="loginButton" value="ADD PARTICIPANT"> ADD
+          PARTICIPANT</button>
+      </div>
+      <span *ngIf="messageAddParticipant!=null">
+        {{messageAddParticipant}}
+        <br />
+      </span>
+    </span>
+
+    <span *ngIf="choosenOption ==6">
+
+
+      <select name="chooseUserType" id="chooseUserType" [(ngModel)]="choosenUserType"
+        (ngModelChange)="selectedTypeChanged($event)" class="loginInput">
+        <option [ngValue]="null" selected disabled> Choose user type</option>
+        <option value="Delegate">Delegate</option>
+        <option value="Leader">Leader</option>
+      </select>
+
+      <br />
+
+      <select name="users" id="users" [(ngModel)]="choosenUser"    (ngModelChange)="selectedUserChanged($event)" class="loginInput">
+        <option [ngValue]="null" selected disabled>Choose user</option>
+        <option [ngValue]="user" *ngFor="let user of allUsers">{{user.name}}</option>
       </select>
       <br />
-      <span *ngIf="choosenOption==1">
-
-        <input type='text' class="loginInput" size="30" placeholder="Sport" name='sport1' [(ngModel)]='sport'>
-        <br>
-        <button (click)='addSport()' class="loginButton" value="ADD SPORT"> ADD SPORT </button>
-
+      <span *ngIf="choosenUser!=null && choosenUser.type=='Leader'">
+        User country: {{choosenUser.country}}</span>
+      <br />
+      <button (click)='approveSelectedUser()' class="loginButton" value="APPROVE"> Approve user </button>
+      <br>
+      <span *ngIf="messageApproveUser!=null">
+        {{messageApproveUser}}
+        <br />
       </span>
-      <span *ngIf="choosenOption==2">
-        <select class="loginInput" name='discipline' [(ngModel)]='choosenSport'>
-          <option [ngValue]="undefined" selected disabled>Choose sport</option>
-          <option *ngFor="let sport of allSports">{{sport.sport}}</option>
-        </select>
-        <br>
-        <input type='text' class="loginInput" size="30" placeholder="Discipline" name='discipline'
-          [(ngModel)]='discipline'>
-        <br>
-        <select class="loginInput" name='type' [(ngModel)]='type'>
-          <option [ngValue]="undefined" selected disabled>Choose type</option>
-          <option value='i'>individual sport </option>
-          <option value='t'>team sport</option>
-        </select>
-        <br>
-        <input *ngIf="type=='t'" type='text' class="loginInput" size="30" placeholder="Minimum number of players"
-          name='minNumPlayers' [(ngModel)]='minNumPlayers'>
+    </span>
 
-        <input *ngIf="type=='t'" type='text' class="loginInput" size="30" placeholder="Maximum number of players"
-          name='maxNumPlayers' [(ngModel)]='maxNumPlayers'>
-
-        <button (click)='addDiscipline()' class="loginButton" value="ADD DISCIPLINE"> ADD DISCIPLINE </button>
-      </span>
-
-      <span *ngIf="choosenOption==3">
-        <div class="option3Left">
-          <input type='string' class="loginInput" size="30" placeholder="Name competition" name='nameCompetition1'
-            [(ngModel)]='nameCompetition1'>
-          <br>
-
-          <select (ngModelChange)="sportChanged($event)" class="loginInput" name='sportName' [(ngModel)]='sportName'>
-            <option [ngValue]="null" selected disabled> Choose sport</option>
-            <option *ngFor='let s of allIndividualSports'>{{s}}</option>
-          </select>
-          <br />
-          <select class="loginInput" name='disciplineName' [(ngModel)]='disciplineName'>
-            <option [ngValue]="null" selected>Choose discipline</option>
-            <option *ngFor='let d of showDisciplines'>{{d.discipline}}</option>
-          </select>
-          <br>
-          <select class="loginInput" name='sex' [(ngModel)]="sex">
-            <option [ngValue]="null" selected disabled>Choose gender</option>
-            <option value='M'>Male</option>
-            <option value='F'>Female</option>
-          </select>
-          <br>
-          <input type='date' class="loginInput" size="30" placeholder="Start date" name='startDate'
-            [(ngModel)]='startDate'>
-          <br>
-          <input type='date' class="loginInput" size="30" placeholder="End date" name='endDate' [(ngModel)]='endDate'>
-        </div>
-        <div class="option3Left">
-
-          <select class="loginInput" name='venue' [(ngModel)]='venue'>
-            <option [ngValue]="null" selected>Choose venue</option>
-            <option *ngFor='let v of allVenues'>{{v.name}}</option>
-          </select>
-
-          <div><button (click)='addVenue()' class="loginButton" value="ADD VENUE"> ADD VENUE</button></div>
-          <textarea class="loginInput" rows="8" cols="30" style="height: auto;max-height: fit-content;"placeholder="Format" name='format' [(ngModel)]='format'></textarea>
-          <br>
-          <select class="loginInput" name='delegate' [(ngModel)]='delegate'>
-            <option [ngValue]="null" selected>Choose delegate</option>
-            <option *ngFor='let g of allDelegates'>{{g.name}}</option>
-          </select>
-        </div>
-
-
-        <div class="fullWidth"><button (click)='create()' class="loginButton" value="CREATE COMPETITION">
-            CREATE
-            COMPETITION</button>
-        </div>
-
-      </span>
-      <span *ngIf="choosenOption==4">
-        <select class="loginInput" name="competitionToClose" id="competitionToClose" [(ngModel)]='nameCompetition2'>
-          <option [ngValue]="null"> Choose competition</option>
-          <option *ngFor="let competition of allCompetitions">
-            {{competition.name}}
-          </option>
-        </select>
-
-        <br>
-        <select class="loginInput" name='formed' id="formed" [(ngModel)]='formed'>
-          <option [ngValue]="null" selected disabled>Close competition</option>
-          <option value='NO'>NO</option>
-          <option value='YES'>YES</option>
-        </select>
-
-        <br>
-        <div><button (click)='closeCompetition()' class="loginButton" value="CLOSE THE COMPETITION"> CLOSE THE
-            COMPETITION</button></div>
-        <br>
-      </span>
-
-      <span *ngIf="choosenOption==5">
-
-        <select class="loginInput" name='competition' [(ngModel)]='nameCompetition3'
-          (ngModelChange)="competitionChanged($event)">
-          <option [ngValue]="null" selected>Choose competition</option>
-          <option *ngFor='let c of allCompetitions'>{{c.name}}</option>
-        </select>
-
-        <br>
-        <select class="loginInput" name='signedParticipant' [(ngModel)]='signedParticipant'>
-          <option [ngValue]="null" selected>Choose participant</option>
-          <option *ngFor='let p of showParticipants'>{{p.name}}</option>
-        </select>
-
-        <div>
-          <button (click)='addParticipant()' class="loginButton" value="ADD PARTICIPANT"> ADD
-            PARTICIPANT</button>
-        </div>
-
-      </span>
-
-      <span *ngIf="choosenOption ==6">
-        <button (click)='approve()' class="loginButton" value="APPROVE"> Approve all users </button>
-
-      </span>
-
-      <div class="fullWidth"><hr /><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button>
-      </div>
+    <div class="fullWidth">
+      <hr /><button (click)='logOut()' class="loginButton" value="LOGOUT"> LOG OUT </button>
     </div>
-
   </div>
+
+</div>

@@ -14,6 +14,7 @@ import { UserService } from '../user.service';
 import { VenueService } from '../venue.service';
 import { Delegate } from '../models/delegate'
 import { Competition } from '../models/competition';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -27,14 +28,17 @@ export class OrganizerComponent implements OnInit {
     private disciplineService: DisciplineService, private userService: UserService,
     private venueService: VenueService, private competitionService: CompetitionService,
     private signedParticipantService: SignedParticipantService,
-    private delegateService: DelegateService) { }
+    private delegateService: DelegateService) {
+    let user: User = JSON.parse(localStorage.getItem("loggedIn"));
+    if (user == null || user.type != "Organizer") {
+      this.router.navigate(['homepage']);
+    }
+
+  }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('loggedIn'));
 
-    this.userService.getNotApprovedUsers().subscribe((data: User[]) => {
-      this.allUsers = data;
-    })
 
     this.disciplineService.getAllDisciplines().subscribe((data: Discipline[]) => {
       this.allDisciplines = data;
@@ -42,6 +46,7 @@ export class OrganizerComponent implements OnInit {
     })
     this.delegateService.getAllDelegates().subscribe((data: Delegate[]) => {
       this.allDelegates = data;
+      this.showDelegates = data;
     })
 
     this.sportService.getAllSports().subscribe((data: Sport[]) => {
@@ -50,6 +55,7 @@ export class OrganizerComponent implements OnInit {
 
     this.venueService.getAllVenues().subscribe((data: Venue[]) => {
       this.allVenues = data;
+      this.showVenues = data;
     })
 
     this.disciplineService.getAllIndividualDisciplines().subscribe((data: Array<string>) => {
@@ -71,98 +77,267 @@ export class OrganizerComponent implements OnInit {
 
   }
 
+
+  fetchAllDelegatesCompetitionLesThenThre() {
+    this.delegateService.getAllDelegates().subscribe((data: Delegate[]) => {
+      this.allDelegates = data;
+      this.showDelegates = data;
+    })
+  }
+
   allCompetitions: Competition[] = [];
 
-  user: User;
-  choosenSport: string;
-  sport: string;
 
-  discipline: string;
+  user: User;
+  //Add new sport
+  sport: string = "";
+
+  //Add discipline to sport
+  choosenSport: string = null;
+  choosenType: string = null;
+  discipline: string = "";
   disciplines: Array<string> = [];
-  type: string;
+
   minNumPlayers: number;
   maxNumPlayers: number;
-  ///
-  allSports: Sport[];
-  allIndividualSports: Array<string>;
-  allUsers: User[];
+  // Competition creation
+  nameCompetition1: string = "";
   sportName: string = null;
-  sportObj: Sport;
-  allDisciplines: Discipline[];
-  showDisciplines: Discipline[];
   disciplineName: string = null;
   sex: string = null;
-  startDate: string;
-  endDate: string;
-  allVenues: Venue[];
-  venue: string;
-  venues: Array<string> = [];
-  format: string;
+  startDate: string = null;
+  endDate: string = null;
+  format: string = "";
+
   allDelegates: Delegate[];
-  delegate: string;
-  notApprovedUser: User;
-  nameCompetition1: string;
-  nameCompetition2: string;
-  nameCompetition3: string;
+  showDelegates: Delegate[];
+  delegates: Array<string> = [];
+  delegate: string = null;
+
+  allVenues: Venue[];
+  showVenues: Venue[];
+  venues: Array<string> = [];
+  venue: string = null;
+
+  allSports: Sport[];
+  allIndividualSports: Array<string>;
+
+  allDisciplines: Discipline[];
+  showDisciplines: Discipline[];
+
+
+  // Competition status
+  nameCompetition2: string = null;
+  formed: string = null;
+
+
+  // Add participants
+  nameCompetition3: string = null;
+  signedParticipant: string = null;
 
   allParticipants: SignedParticipant[];
   showParticipants: SignedParticipant[];
 
-  usernameApprove: string;
 
-  signedParticipant: string;
-
-
-
-  formed: string = null;
-
-
-  ///////////////////////////////
-  choosenOption: number = 0;
+  // Aprove participants
+  choosenUserType: string = null;
+  choosenUser: User = null;
+  allUsers: User[];
 
 
 
-  competitionChanged(cometitionName: string) {
-    this.showParticipants = this.allParticipants.filter((oneParticipant: SignedParticipant) => {
-      return oneParticipant.competitionName == cometitionName;
+
+
+
+
+  // Option
+  choosenOption: number = 3;
+
+
+
+
+
+  fetchAllSports() {
+    this.sportService.getAllSports().subscribe((data: Sport[]) => {
+      this.allSports = data;
+    })
+  }
+
+  fetchAllIndividialSports() {
+    this.disciplineService.getAllIndividualDisciplines().subscribe((data: Array<string>) => {
+      this.allIndividualSports = data;
     })
   }
 
 
+  // Add sport
+
+  messageAddSport: string = null;
   addSport() {
-    this.sportService.addSportService(this.sport, this.disciplines).subscribe(resp => {
+    this.messageAddSport = null;
+    if (this.sport == "") {
+      this.messageAddSport = "Sport name can not be empty";
+      return;
+    }
+
+    this.sportService.addSportService(this.sport, this.disciplines).subscribe((resp: any) => {
       console.log(resp);
-      this.sportService.getAllSports().subscribe((data: Sport[]) => {
-        this.allSports = data;
-      })
+      this.messageAddSport = resp.message;
+      this.fetchAllSports();
+    }, (err: any) => {
+      this.messageAddSport = err.error.message;
     })
 
   }
 
-  addDiscipline() {
-    if (this.type == 'i') {
-      this.disciplineService.addDisciplineService(this.choosenSport, this.discipline, this.type, 1, 1).subscribe(resp => {
-        console.log(resp);
-        this.disciplineService.getAllIndividualDisciplines().subscribe((data: Array<string>) => {
-          this.allIndividualSports = data;
-          console.log(this.allIndividualSports);
-        })
-      })
 
+  // Add discipline
 
-    }
-    else {
-      this.disciplineService.addDisciplineService(this.choosenSport, this.discipline, this.type, this.minNumPlayers, this.maxNumPlayers).subscribe(resp => {
-        console.log(resp);
-      })
-    }
-
+  addDisciplineToSportInBase() {
     this.sportService.addDisciplineService(this.choosenSport, this.discipline).subscribe(resp => {
-      console.log(resp);
+      this.messageAddDiscipline = "Discipline successfully added";
+    },
+      (err) => {
+        this.messageAddDiscipline = err
+      });
+  }
+
+
+  isNumOfPlayersOk(): boolean {
+    if (this.choosenType == "i") return true;
+    if (this.maxNumPlayers == this.minNumPlayers && this.minNumPlayers == 1 && this.choosenType == "t") {
+      this.messageAddDiscipline = "Team sport can not have one participant";
+      return false;
+    }
+    if (this.maxNumPlayers <= 0 || this.minNumPlayers <= 0) {
+      this.messageAddDiscipline = "Num of players must be greather then zero";
+      return false;
+    }
+    if (this.minNumPlayers > this.maxNumPlayers) {
+      this.messageAddDiscipline = "Max num of players must be greather then min";
+      return false;
+    }
+    return true;
+
+  }
+
+  messageAddDiscipline: string = null;
+  addDiscipline() {
+    this.messageAddDiscipline = null;
+    if (this.choosenSport == null) {
+      this.messageAddDiscipline = "Please choose sport";
+      return;
+    }
+    if (this.choosenType == null) {
+      this.messageAddDiscipline = "Discipline type can not be empty";
+      return;
+    }
+    if (this.discipline == "") {
+      this.messageAddDiscipline = "Discipline name can not be empty";
+      return;
+    }
+
+    if (!this.isNumOfPlayersOk()) return;
+
+
+    let min = this.minNumPlayers, max = this.maxNumPlayers;
+
+    if (this.choosenType == 'i') {
+      min = 1;
+      max = 1;
+    }
+
+    this.disciplineService.addDisciplineService(this.choosenSport, this.discipline, this.choosenType, min, max).subscribe(resp => {
+      if (this.choosenType == 'i') {
+        this.fetchAllIndividialSports();
+      }
+      this.addDisciplineToSportInBase();
+    }, (err) => {
+      this.messageAddDiscipline = err.error.message;
     })
 
   }
 
+
+  // Create new competition
+
+  isCompetitionFieldOk(): boolean {
+    if (this.format == "") {
+      this.messageAddCompetition = "Competition format can no be empty";
+      return false;
+    }
+    if (this.nameCompetition1 == "") {
+      this.messageAddCompetition = "Competition name can no be empty";
+      return false;
+    }
+    if (this.sportName == null) {
+      this.messageAddCompetition = "Please chosoe sport";
+      return false;
+    }
+    if (this.disciplineName == null) {
+      this.messageAddCompetition = "Please chosoe discipline";
+      return false;
+    }
+    if (this.sex == null) {
+      this.messageAddCompetition = "Please chosoe gender";
+      return false;
+    }
+    if (this.startDate == null) {
+      this.messageAddCompetition = "Please chosoe startDate";
+      return false;
+    }
+    if (this.endDate == null) {
+      this.messageAddCompetition = "Please chosoe endDate";
+      return false;
+    }
+    if (new Date(this.startDate) > new Date(this.endDate)) {
+      this.messageAddCompetition = "Start date can not be after end date";
+      return false;
+    }
+    if (this.venues.length == 0) {
+      this.messageAddCompetition = "Please choose minimal one venue";
+      return false;
+    }
+    if (this.delegates.length == 0) {
+      this.messageAddCompetition = "Please chosoe delagate";
+      return false;
+    }
+    return true;
+  }
+
+
+  updateNumOfDelegateCompetitions(delegate: string) {
+    return this.delegateService.incrementDelegate(delegate).toPromise();
+  }
+  async updateNumOfChoosenDelegatesCompetitions() {
+    for (let index = 0; index < this.delegates.length; index++) {
+      await this.updateNumOfDelegateCompetitions(this.delegates[index]);
+
+    }
+    this.fetchAllDelegatesCompetitionLesThenThre();
+
+    this.delegates = [];
+    this.delegate = null;
+
+
+  }
+  messageAddCompetition: string = null;
+  create() {
+    this.messageAddCompetition = null;
+    if (!this.isCompetitionFieldOk()) return;
+
+    this.updateNumOfChoosenDelegatesCompetitions();
+    this.competitionService.addCompetition(this.nameCompetition1, this.sportName, this.disciplineName, this.sex,
+      this.startDate, this.endDate, this.venues, this.format, this.delegates, this.formed, "", "").subscribe((resp: any) => {
+
+        this.messageAddCompetition = resp.message;
+      }, (err) => {
+        this.messageAddCompetition = err.error.message;
+      });
+
+
+
+  }
 
   sportChanged(sportName: string) {
     this.sportName = sportName;
@@ -171,67 +346,168 @@ export class OrganizerComponent implements OnInit {
       return;
     }
 
+    this.disciplineName = null;
     this.showDisciplines = this.allDisciplines.filter((oneDiscipline: Discipline) => {
       return oneDiscipline.sport == sportName;
     })
 
-  }
+    this.venue = null;
+    this.venues = [];
 
+
+    this.delegate = null;
+    this.delegates = [];
+    this.showDelegates = this.allDelegates;
+
+    this.showVenues = this.allVenues.filter((oneVenue: Venue) => {
+      return oneVenue.sports.find((oneSport: string) => {
+        return oneSport == sportName;
+      }) != undefined;
+    })
+
+  }
 
   addVenue() {
-    console.log(this.venue);
+    if (this.venue == null) {
+      this.messageAddCompetition = "Plese choose which venu to add";
+      return;
+    }
     this.venues.push(this.venue);
+
+    let index = this.showVenues.findIndex((oneVenue: Venue) => {
+      return oneVenue.name == this.venue;
+    })
+    this.showVenues.splice(index, 0);
+    this.venue = null;
+  }
+
+  addDelegate() {
+    if (this.delegate = null) {
+      this.messageAddCompetition = "Plese choose which delegate to add";
+      return;
+    }
+    this.delegates.push(this.delegate);
+
+    let index = this.showDelegates.findIndex((oneDelegate: Delegate) => {
+      return oneDelegate.name == this.delegate;
+    })
+    this.showDelegates.splice(index, 0);
+    this.delegate = null;
+  }
+
+  // Change competition status
+
+  messageChangeComeprtitionStatus: string;
+  changeCompetitionStatus() {
+    if (this.nameCompetition2 == null) {
+      this.messageChangeComeprtitionStatus = "Please choose competition";
+      return;
+    }
+    if (this.formed == null) {
+      this.messageChangeComeprtitionStatus = "Please choose new status for the competition";
+      return;
+    }
+    this.competitionService.changeCompetitionStatus(this.nameCompetition2, this.formed).subscribe((resp: any) => {
+      this.messageChangeComeprtitionStatus = resp.message;
+    })
+  }
+
+
+  // Add participant
+
+  showParticipantsMaker: SignedParticipant[] = [];
+
+  updateParticipantByCompetitionName(competitionName: string) {
+    this.showParticipantsMaker = this.showParticipantsMaker.filter((oneParticipant: SignedParticipant) => {
+      return oneParticipant.competitionName == competitionName;
+    })
+  }
+
+  removeAlreadySignedParticipants(alredaySignedParticipant: string[]) {
+    this.showParticipantsMaker = this.showParticipantsMaker.filter((oneParticipant: SignedParticipant) => {
+      return undefined == alredaySignedParticipant.find((signedParticipant: string) => {
+        return signedParticipant == oneParticipant.name;
+      })
+    })
   }
 
 
 
+
+  competitionChanged(cometitionName: string) {
+    if (cometitionName == null) return;
+    this.showParticipants = [];
+    this.signedParticipant = null;
+
+    this.showParticipantsMaker = this.allParticipants;
+    this.competitionService.getCompetitionByName(cometitionName).subscribe((competition: Competition) => {
+      console.log(competition);
+
+      this.updateParticipantByCompetitionName(cometitionName);
+      this.removeAlreadySignedParticipants(competition.signedParticipants);
+      this.showParticipants = this.showParticipantsMaker;
+    });
+  }
+
+  messageAddParticipant: string = null;
   addParticipant() {
 
-    this.competitionService.addCompetitor(this.nameCompetition3, this.signedParticipant).subscribe(resp => {
-      console.log(resp);
+    if (this.nameCompetition3 == null) {
+      this.messageAddParticipant = "Please, choose competition";
+      return;
+    }
+
+    if (this.signedParticipant == null) {
+      this.messageAddParticipant = "Please, choose participant";
+      return;
+    }
+
+    this.competitionService.addCompetitor(this.nameCompetition3, this.signedParticipant).subscribe((resp: any) => {
+      this.messageAddParticipant = resp.message;
+      let index = this.showParticipants.findIndex((oneParticipant: SignedParticipant) => {
+        return oneParticipant.name == this.signedParticipant;
+      });
+      this.showParticipants.splice(index, 1);
+      this.signedParticipant = null;
+    }, (err) => {
+      this.messageAddParticipant = err;
     })
 
 
+  }
+
+  selectedTypeChanged(type: string) {
+    this.getNotAprovedUsers(type);
+    this.choosenUser = null;
+  }
+
+  selectedUserChanged(user: User) {
+    this.messageApproveUser = null;
+  }
+
+  getNotAprovedUsers(type: string) {
+    this.userService.getNotApprovedUsers(type).subscribe((data: User[]) => {
+      this.allUsers = data;
+      console.log(data);
+
+    })
+  }
+
+
+  messageApproveUser: string = null;
+  approveSelectedUser() {
+    this.messageApproveUser = null;
+    this.userService.approveUser(this.choosenUser.username).subscribe((resp: any) => {
+      this.messageApproveUser = resp.message;
+    }, (err) => {
+      this.messageApproveUser = err.error.message;
+    })
   }
 
 
   logOut() {
     localStorage.clear();
     this.router.navigate(['']);
-  }
-
-
-
-  approve() {
-    for (let i = 0; i < this.allUsers.length; i++) {
-      this.notApprovedUser = this.allUsers[i];
-      this.usernameApprove = this.notApprovedUser.username;
-      this.userService.approveUser(this.usernameApprove).subscribe(resp => {
-        console.log(resp);
-      })
-
-
-    }
-  }
-
-  create() {
-    this.delegateService.incrementDelegate(this.delegate).subscribe(resp => {
-      this.competitionService.addCompetition(this.nameCompetition1, this.sportName, this.disciplineName, this.sex,
-        this.startDate, this.endDate, this.venues, this.format, this.delegate, "NO", "", "").subscribe(resp => {
-          console.log(resp);
-        })
-      console.log(resp);
-    })
-
-
-  }
-
-  closeCompetition() {
-    this.competitionService.closeCompetition(this.nameCompetition2, this.formed).subscribe(resp => {
-      console.log(resp);
-    })
-
-
   }
 
 

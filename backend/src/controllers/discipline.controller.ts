@@ -5,13 +5,21 @@ import Discipline from '../models/discipline'
 export class DisciplineController {
 
 
-    addDisciplineService = (req: express.Request, res: express.Response) => {
+    addDisciplineService = async (req: express.Request, res: express.Response) => {
+
+        let foundDiscipline = await Discipline.findOne({ discipline: req.body.discipline, sport: req.body.sport }).exec();
+
+        if (foundDiscipline != undefined) {
+            res.status(400).json({ "message": "Specified discipline name already exists in specified sport" });
+            return;
+        }
+
         let discipline = new Discipline(req.body);
         console.log(discipline);
         discipline.save().then((discipline) => {
             console.log(discipline);
             console.log("USPEO DA NAPRAVI");
-            res.status(200).json({ 'message': 'discipline added' });
+            res.status(200).json({ 'message': 'Discipline successfully added' });
         }).catch((err) => {
             res.status(400).json({ 'message': err });
         })

@@ -54,8 +54,8 @@ export class DelegateComponent implements OnInit {
   message1: string;
 
   //dodavanje rezultata
-  competition2: string=null;
-  participant: string=null;
+  competition2: string = null;
+  participant: string = null;
   participants: Array<string> = [];
   result: string;
   results: Array<string> = [];
@@ -71,18 +71,18 @@ export class DelegateComponent implements OnInit {
   element: string;
   index: number;
   //finalna runda
-  competition3: Round=null;
+  competition3: Round = null;
   allFinalCompetitions: Array<string>;
   allFinalParticipants: Array<string>;
   allFinalRounds: Round[];
   showParticipantsFinal: string[];
-  choosenOption:number=0;
-  additionalRoundParticipants: Array<string>=[];
+  choosenOption: number = 0;
+  additionalRoundParticipants: Array<string> = [];
   duplicate: string;
   resultAdditional: string;
-  resultsAdditional: Array<string>=[];
+  resultsAdditional: Array<string> = [];
   p: string;
-  participantsFromAdditional: Array<string>=[];
+  participantsFromAdditional: Array<string> = [];
   participantAdditional: string;
   finalParticipants: Array<string>;
 
@@ -102,7 +102,7 @@ export class DelegateComponent implements OnInit {
   competitionChanged(competitionName: string) {
     let helper = this.allParticipants;
     this.showParticipants = [];
-    
+
     this.resultService.getAllResult(competitionName, 0).subscribe((result: Result[]) => {
 
       helper = helper.filter((oneParticipant: SignedParticipant) => {
@@ -141,8 +141,8 @@ export class DelegateComponent implements OnInit {
 
   }
 
-  addResultAdditional(){
-   
+  addResultAdditional() {
+
     this.resultsAdditional.push(this.resultAdditional);
     this.participantsFromAdditional.push(this.participantAdditional);
 
@@ -179,22 +179,22 @@ export class DelegateComponent implements OnInit {
     })
   }
 
-  additionalRound() { 
+  additionalRound() {
     this.processAditionalRound(this.competition2);
   }
 
-  processAditionalRound(competitionName: string){
+  processAditionalRound(competitionName: string) {
     this.element = Math.max.apply(null, this.resultsAdditional);
     this.index = this.resultsAdditional.indexOf(this.element);
     this.participantsEight.push(this.participantsFromAdditional[this.index]);
     this.roundService.addRound(competitionName, "", this.participantsEight, 1, "NO").subscribe(resp => {
       console.log(resp);
       this.participantsEight = [];
-      this.additionalRoundParticipants=[];
-      this.participantsFromAdditional=[];
+      this.additionalRoundParticipants = [];
+      this.participantsFromAdditional = [];
 
     })
-    
+
   }
 
   theFirstEight(competitionName: string, numberRound: number) {
@@ -204,31 +204,31 @@ export class DelegateComponent implements OnInit {
       this.arrayPEight = data.participants;
       let i = 8;
       while (i > 0) {
-        if (i==1){
+        if (i == 1) {
           this.element = Math.max.apply(null, this.arrayREight);
-          this.p=this.arrayPEight[this.index]
+          this.p = this.arrayPEight[this.index]
           this.index = this.arrayREight.indexOf(this.element);
           this.arrayREight.splice(this.index, 1);
           this.arrayPEight.splice(this.index, 1);
-          this.duplicate= Math.max.apply(null, this.arrayREight);
-          if (this.element == this.duplicate){
+          this.duplicate = Math.max.apply(null, this.arrayREight);
+          if (this.element == this.duplicate) {
             this.additionalRoundParticipants.push(this.p);
             this.index = this.arrayREight.indexOf(this.duplicate);
             this.additionalRoundParticipants.push(this.arrayPEight[this.index]);
             this.arrayREight.splice(this.index, 1);
             this.arrayPEight.splice(this.index, 1);
-            this.duplicate= Math.max.apply(null, this.arrayREight);
-            while(this.element==this.duplicate){
-            this.index = this.arrayREight.indexOf(this.duplicate);
-            this.additionalRoundParticipants.push(this.arrayPEight[this.index]);
-            this.arrayREight.splice(this.index, 1);
-            this.arrayPEight.splice(this.index, 1);
-            this.duplicate= Math.max.apply(null, this.arrayREight);
+            this.duplicate = Math.max.apply(null, this.arrayREight);
+            while (this.element == this.duplicate) {
+              this.index = this.arrayREight.indexOf(this.duplicate);
+              this.additionalRoundParticipants.push(this.arrayPEight[this.index]);
+              this.arrayREight.splice(this.index, 1);
+              this.arrayPEight.splice(this.index, 1);
+              this.duplicate = Math.max.apply(null, this.arrayREight);
+            }
+            this.message1 = "An additional round must be held!"
+            // this.processAditionalRound(competitionName, this.additionalRoundParticipants, this.participantsEight);
           }
-          this.message1="An additional round must be held!"
-         // this.processAditionalRound(competitionName, this.additionalRoundParticipants, this.participantsEight);
-          }
-          else{
+          else {
             this.participantsEight.push(this.p);
             this.roundService.addRound(competitionName, "", this.participantsEight, 1, "NO").subscribe(resp => {
               console.log(resp);

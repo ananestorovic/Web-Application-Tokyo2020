@@ -24,27 +24,38 @@ export class SportController {
         })
     }
 
-    addSportService = (req: express.Request, res: express.Response) =>{
+    addSportService = async (req: express.Request, res: express.Response) => {
+
+        let foundSport = await Sport.findOne({ sport: req.body.sport }).exec();
+        if (foundSport != undefined) {
+            res.status(400).json({ "message": "Sport with specified name alredy exists" });
+            return;
+        }
         let sport = new Sport(req.body);
-        sport.save().then((sport)=>{
-            res.status(200).json({'message':'sport added'});
-        }).catch((err)=>{
-            res.status(400).json({'message': err});
+        sport.save().then((sport) => {
+            res.status(200).json({ 'message': 'Sport successfully added' });
+        }).catch((err) => {
+            res.status(400).json({ 'message': err });
         })
 
-        
+
     }
 
-    addDisciplineService = (req: express.Request, res: express.Response) =>{
+    addDisciplineService = async (req: express.Request, res: express.Response) => {
         let sport = req.body.sport;
-        let discipline = req.body. discipline;
-        console.log(sport);
-        console.log(discipline);
-        Sport.collection.updateOne({'sport': sport},
-        {$push: {discipline: discipline}});
+        let discipline = req.body.discipline;
 
+        let foundSportDiscipline = await Sport.findOne({ 'sport': sport, discipline: discipline }).exec();
 
-        
+        if (foundSportDiscipline != undefined) {
+            res.status(400).json({ 'message': "Specified discipline alredy exists" });
+            return;
+        }
+
+        Sport.collection.updateOne({ 'sport': sport },
+            { $push: { discipline: discipline } });
+
+        res.status(200).json({ "message": "Discipline succesffuly added" });
     }
 
     async getAllSportDiscpiline(sport: string, res: express.Response) {
@@ -58,6 +69,6 @@ export class SportController {
 
     }
 
-    
+
 
 }

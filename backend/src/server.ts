@@ -17,7 +17,7 @@ import roundRouter from './routes/round.routes';
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 mongoose.connect('mongodb://localhost:27017/tokyo2020');
 const connection = mongoose.connection;

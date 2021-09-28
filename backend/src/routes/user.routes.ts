@@ -22,7 +22,7 @@ userRouter.route('/getDelegates').get(
     (req, res)=>new UserController().getDelegates(req, res)
 );
 
-userRouter.route('/getNotApprovedUsers').get(
+userRouter.route('/getNotApprovedUsers/:type').get(
     (req, res)=>new UserController().getNotApprovedUsers(req, res)
 );
 
