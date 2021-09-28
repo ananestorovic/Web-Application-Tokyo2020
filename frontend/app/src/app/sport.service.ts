@@ -14,8 +14,10 @@ export class SportService {
     return this.http.get(`${this.uri}/sports/getAllSports`);
   }
 
+
+
   getSportByName(sportName) {
-    const data={
+    const data = {
       sportName: sportName
     }
     console.log(data);
@@ -34,7 +36,7 @@ export class SportService {
     const data = {
       sport: sport,
       discipline: discipline
-     
+
     }
 
     return this.http.post(`${this.uri}/sports/addDisciplineService`, data);

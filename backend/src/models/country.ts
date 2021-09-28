@@ -2,21 +2,14 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-let Country = new Schema ({
+let Country = new Schema({
 
-    countryID:{
-        type: Number
-    },
-
-   country: {
+    country: {
         type: String
     },
 
-    countryCode:{
-        type: Number
-    },
 
-    numberOfParticipants:{
+    numberOfParticipants: {
         type: Number
     }
 

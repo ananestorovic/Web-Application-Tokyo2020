@@ -15,6 +15,7 @@ sportistRouter.route('/getSportistsBySport').post((req, res) => new sportist_con
 sportistRouter.route('/getSportistsByCountry').post((req, res) => new sportist_controller_1.SportistController().getSportistsByCountry(req, res));
 sportistRouter.route('/getSportistsByName').post((req, res) => new sportist_controller_1.SportistController().getSportistsByName(req, res));
 sportistRouter.route('/getSportistByName').post((req, res) => new sportist_controller_1.SportistController().getSportistByName(req, res));
+sportistRouter.route('/getSportistsBySearch').post((req, res) => new sportist_controller_1.SportistController().getSportistsBySearch(req, res));
 sportistRouter.route('/updateMedalCount').post((req, res) => new sportist_controller_1.SportistController().updateMedalCount(req, res));
 exports.default = sportistRouter;
 //# sourceMappingURL=sportist.routes.js.map

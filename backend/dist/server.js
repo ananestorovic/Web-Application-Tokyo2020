@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -19,14 +27,17 @@ const signed_participant_routes_1 = __importDefault(require("./routes/signed-par
 const delegate_routes_1 = __importDefault(require("./routes/delegate.routes"));
 const result_routes_1 = __importDefault(require("./routes/result.routes"));
 const round_routes_1 = __importDefault(require("./routes/round.routes"));
+const seed_1 = require("./seed/seed");
 const app = express_1.default();
 app.use(cors_1.default());
 app.use(body_parser_1.default.json());
 mongoose_1.default.connect('mongodb://localhost:27017/tokyo2020');
 const connection = mongoose_1.default.connection;
-connection.once('open', () => {
+connection.once('open', () => __awaiter(this, void 0, void 0, function* () {
     console.log('mongo ok');
-});
+    yield seed_1.dropDataBase(connection);
+    yield seed_1.seedDataBase(connection);
+}));
 const router = express_1.default.Router();
 router.use('/users', user_routes_1.default);
 router.use('/countries', country_routes_1.default);

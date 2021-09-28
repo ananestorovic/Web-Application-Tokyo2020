@@ -54,6 +54,44 @@ export class SportistController {
         })
     }
 
+    async getSportistsBySearch(req: express.Request, res: express.Response) {
+        try {
+            let obj: any = req.body;
+            console.log(obj);
+
+            let arrrayFound = []
+            if (obj.searchByName) {
+                arrrayFound.push({ 'name': obj.name });
+            }
+            if (obj.searchByCountry) {
+                arrrayFound.push({ 'nationality': obj.country });
+            }
+            if (obj.searchBySport) {
+                arrrayFound.push({ 'sport': obj.sport });
+            }
+            if (obj.searchByDiscipline) {
+                arrrayFound.push({ 'discipline': obj.dicsipline });
+            }
+            if (obj.searchByGender) {
+                arrrayFound.push({ 'sex': obj.gender });
+            }
+            if (obj.searchOnlyWithMedals) {
+                arrrayFound.push({ 'medalCount': { $gt: 0 } });
+            }
+            let foundCondObj = {}
+            if (arrrayFound.length != 0) foundCondObj = { $and: arrrayFound }
+
+            console.log(foundCondObj);
+            let foundSportist = await Sportist.find(foundCondObj).exec();
+            console.log(foundSportist);
+            res.status(200).json(foundSportist);
+
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({ 'message': err });
+        }
+    }
+
 
     getSportistByName = (req: express.Request, res: express.Response) => {
         let name = req.body.name;

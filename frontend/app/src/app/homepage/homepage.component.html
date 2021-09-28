@@ -49,16 +49,26 @@
         <div class="searchDiv" id="search">
             <input type='text' class="loginInput" size="30" placeholder="Name" name='name' [(ngModel)]='name'>
             <br>
-            <select class="loginInput" name='country ' [(ngModel)]='country '>
+            <select class="loginInput" name='country' [(ngModel)]='country'>
                 <option [ngValue]="null" selected>All countries</option>
-                <option *ngFor='let c of allCountries '>{{c.country}}</option>
+                <option *ngFor='let c of allCountries'>{{c.country}}</option>
             </select>
             <br>
-            <select class="loginInput" name='sport ' [(ngModel)]='sport '>
-                <option [ngValue]="null" selected>All sports</option>
-                <option *ngFor='let k of allSports '>{{k.sport}}</option>
+            <select class="loginInput" name='sport' [(ngModel)]='sport' (ngModelChange)="sportChanged($event)">
+                <option [ngValue]="null" selected>all sports</option>
+                <option *ngFor='let k of allSports'>{{k.sport}}</option>
             </select>
             <br>
+            <select name="discipline" id="discipline" class="loginInput" [(ngModel)]="discipline">
+                <option [ngValue]="null" selected>all disciplines</option>
+                <option *ngFor='let k of showDisciplines'> {{k.discipline}}</option>
+            </select>
+            <br />
+            M <input type="radio" name="gender" id="gender" value="M" [(ngModel)]="gender">
+            F <input type="radio" name="gender" id="gender" value="F" [(ngModel)]="gender">
+            <br />
+            <input type="checkbox" name="hasMedals" id="hasMedals" [(ngModel)]="hasMedals"> Only with medals
+            <br />
             <button (click)='search()' class="loginButton" value="SEARCH"> SEARCH </button>
         </div>
         <table class="countriesTable">
