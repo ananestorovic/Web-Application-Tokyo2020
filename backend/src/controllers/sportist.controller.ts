@@ -72,4 +72,10 @@ export class SportistController {
         })
     }
 
+    updateMedalCount= (req: express.Request, res: express.Response) => {
+        let name = req.body.name;
+    Sportist.collection.updateOne({'name':name},{$inc:{'medalCount':1 }});
+    res.json({'message':'medal count increment'});
+}
+
 }

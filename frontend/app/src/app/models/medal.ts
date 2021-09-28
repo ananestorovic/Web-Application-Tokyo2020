@@ -1,8 +1,8 @@
 export class Medal{
     ranking: number;
-    zemlja: string;
-    brojZlatnih: number;
-    brojSrebrnih: number;
-    brojBronzanih: number;
-    ukupno: number;
+    country: string;
+    numGold: number;
+    numSilver: number;
+    numBronze: number;
+    sum: number;
 }

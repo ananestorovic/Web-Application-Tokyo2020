@@ -24,7 +24,7 @@ export class RoundController {
         let competition = req.body.competition;
         let numRound = req.body.numRound;
 
-        Round.findOne({'competition':competition}, {'numRound': numRound},
+        Round.findOne({'competition':competition, 'numRound': numRound},
             (err, rounds)=>{
                 if(err) console.log(err);
                 else res.json(rounds);
@@ -44,6 +44,16 @@ export class RoundController {
             if (err) console.log(err);
             else res.json(rounds);
         })
+    }
+
+    updateFinalRound= (req: express.Request, res: express.Response)=>{
+        let competition = req.body.competition;
+        let results= req.body.results;
+        let participants=req.body.participants;
+        let numRound = req.body.numRound;
+
+        Round.collection.updateOne({ 'competition': competition , 'numRound': numRound}, { $set: { 'results': results, 'participants': participants } });
+        res.json({ 'message': 'final round update' });
     }
 
 

@@ -7,8 +7,8 @@ resultRouter.route('/addResult').post(
 );
 
 resultRouter.route('/getAllResult/:competition/:roundNumber').get(
-    (req, res)=>new ResultController().getAllResult(req.params.competition, req.params.roundNumber,res);
-)
+    (req, res)=>new ResultController().getAllResult(req.params.competition, req.params.roundNumber,res)
+);
 
 
 
