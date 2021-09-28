@@ -85,6 +85,11 @@ class SportistController {
                     res.json(sportists);
             });
         };
+        this.updateMedalCount = (req, res) => {
+            let name = req.body.name;
+            sportist_1.default.collection.updateOne({ 'name': name }, { $inc: { 'medalCount': 1 } });
+            res.json({ 'message': 'medal count increment' });
+        };
     }
 }
 exports.SportistController = SportistController;

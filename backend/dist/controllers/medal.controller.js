@@ -15,6 +15,21 @@ class MedalController {
                     res.json(medals);
             });
         };
+        this.updateGold = (req, res) => {
+            let country = req.body.country;
+            medal_1.default.collection.updateOne({ 'country': country }, { $inc: { 'numGold': 1 } });
+            res.json({ 'message': 'gold inc' });
+        };
+        this.updateSilver = (req, res) => {
+            let country = req.body.country;
+            medal_1.default.collection.updateOne({ 'country': country }, { $inc: { 'numSilver': 1 } });
+            res.json({ 'message': 'silver inc' });
+        };
+        this.updateBronze = (req, res) => {
+            let country = req.body.country;
+            medal_1.default.collection.updateOne({ 'country': country }, { $inc: { 'numBronze': 1 } });
+            res.json({ 'message': 'silver inc' });
+        };
     }
 }
 exports.MedalController = MedalController;

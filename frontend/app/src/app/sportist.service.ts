@@ -68,4 +68,11 @@ export class SportistService {
 getAllSportists(){
   return this.http.get(`${this.uri}/sportists/getAllSportists`);
 }
+
+updateMedalCount(name){
+  const data = {
+    name: name
+  }
+  return this.http.post(`${this.uri}/sportists/updateMedalCount`, data);
+}
 }

@@ -41,6 +41,14 @@ class RoundController {
                     res.json(rounds);
             });
         };
+        this.updateFinalRound = (req, res) => {
+            let competition = req.body.competition;
+            let results = req.body.results;
+            let participants = req.body.participants;
+            let numRound = req.body.numRound;
+            round_1.default.collection.updateOne({ 'competition': competition, 'numRound': numRound }, { $set: { 'results': results, 'participants': participants } });
+            res.json({ 'message': 'final round update' });
+        };
     }
 }
 exports.RoundController = RoundController;

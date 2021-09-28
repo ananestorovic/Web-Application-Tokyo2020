@@ -46,5 +46,15 @@ export class RoundController {
         })
     }
 
+    updateFinalRound= (req: express.Request, res: express.Response)=>{
+        let competition = req.body.competition;
+        let results= req.body.results;
+        let participants=req.body.participants;
+        let numRound = req.body.numRound;
+
+        Round.collection.updateOne({ 'competition': competition , 'numRound': numRound}, { $set: { 'results': results, 'participants': participants } });
+        res.json({ 'message': 'final round update' });
+    }
+
 
 }

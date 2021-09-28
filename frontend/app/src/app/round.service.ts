@@ -43,4 +43,16 @@ export class RoundService {
   getFinalRounds(){
     return this.http.get(`${this.uri}/rounds/getFinalRounds`);
   }
+
+  updateFinalRound(competition, results, participants, numRound ){
+    const data = {
+      competition: competition,
+      results: results,
+      participants: participants,
+      numRound: numRound
+    }
+    return this.http.post(`${this.uri}/rounds/updateFinalRound`, data);
+  }
+
 }
+  
