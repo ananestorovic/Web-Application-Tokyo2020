@@ -271,23 +271,23 @@ export class OrganizerComponent implements OnInit {
       return false;
     }
     if (this.sportName == null) {
-      this.messageAddCompetition = "Please chosoe sport";
+      this.messageAddCompetition = "Please choose sport";
       return false;
     }
     if (this.disciplineName == null) {
-      this.messageAddCompetition = "Please chosoe discipline";
+      this.messageAddCompetition = "Please choose discipline";
       return false;
     }
     if (this.sex == null) {
-      this.messageAddCompetition = "Please chosoe gender";
+      this.messageAddCompetition = "Please choose gender";
       return false;
     }
     if (this.startDate == null) {
-      this.messageAddCompetition = "Please chosoe startDate";
+      this.messageAddCompetition = "Please choose startDate";
       return false;
     }
     if (this.endDate == null) {
-      this.messageAddCompetition = "Please chosoe endDate";
+      this.messageAddCompetition = "Please choose endDate";
       return false;
     }
     if (Date.parse(this.startDate) > Date.parse(this.endDate)) {
@@ -299,7 +299,7 @@ export class OrganizerComponent implements OnInit {
       return false;
     }
     if (this.delegates.length == 0) {
-      this.messageAddCompetition = "Please chosoe delagate";
+      this.messageAddCompetition = "Please choose delagate";
       return false;
     }
     return true;

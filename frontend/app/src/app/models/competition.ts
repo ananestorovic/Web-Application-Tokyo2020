@@ -7,7 +7,7 @@ export class Competition{
     endDate: string;
     venue: Array<string>;
     format: string;
-    delegate: string;
+    delegate: Array<string>;
     signedParticipants: Array<string>;
     formed:string;
     dateFinalRound: string;

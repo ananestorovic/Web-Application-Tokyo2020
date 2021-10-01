@@ -290,7 +290,7 @@ export class DelegateComponent implements OnInit {
           }
           else {
             this.participantsEight.push(this.p);
-            this.roundService.addRound(competitionName, "", this.participantsEight, 1, "NO").subscribe(resp => {
+            this.roundService.addRound(competitionName, [], this.participantsEight, 1, "NO").subscribe(resp => {
               console.log(resp);
               this.participantsEight = [];
 
@@ -303,7 +303,7 @@ export class DelegateComponent implements OnInit {
           }
         }
         else {
-          this.element = "" + Math.max.apply(null, this.arrayREight); //NE TREBA SVUDA MAX!!!
+          this.element = "" + Math.max.apply(null, this.arrayREight); 
           this.index = this.arrayREight.indexOf(this.element);
           this.participantsEight.push(this.arrayPEight[this.index]);
 
