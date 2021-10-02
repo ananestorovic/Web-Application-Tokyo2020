@@ -14,15 +14,18 @@ import signedParticipantRouter from './routes/signed-participant.routes';
 import delegateRouter from './routes/delegate.routes';
 import resultRouter from './routes/result.routes';
 import roundRouter from './routes/round.routes';
+import { dropDataBase, seedDataBase } from './seed/seed';
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost:27017/tokyo2020');
 const connection = mongoose.connection;
-connection.once('open', ()=>{
-    console.log('mongo ok')
+connection.once('open', async () => {
+    console.log('mongo ok');
+    await dropDataBase(connection);
+    await seedDataBase(connection);
 });
 
 const router = express.Router();

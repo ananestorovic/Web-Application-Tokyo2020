@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CountryService } from '../country.service';
+import { DisciplineService } from '../discipline.service';
 import { MedalService } from '../medal.service';
 import { Country } from '../models/country';
+import { Discipline } from '../models/discipline';
 import { Medal } from '../models/medal';
 import { Sport } from '../models/sport';
 import { Sportist } from '../models/sportist';
@@ -21,6 +23,7 @@ export class HomepageComponent implements OnInit {
 
   constructor(private countryService: CountryService, private medalService: MedalService,
     private sportistService: SportistService, private sportService: SportService,
+    private disciplineService: DisciplineService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -44,6 +47,10 @@ export class HomepageComponent implements OnInit {
     this.sportService.getAllSports().subscribe((data: Sport[]) => {
       this.allSports = data;
     })
+
+    this.disciplineService.getAllDisciplines().subscribe((data: Discipline[]) => {
+      this.allDisciplines = data;
+    })
     this.user = JSON.parse(localStorage.getItem('loggedIn'));
   }
 
@@ -54,9 +61,14 @@ export class HomepageComponent implements OnInit {
   allMedals: Medal[] = [];
   allSportists: Sportist[] = [];
   allSports: Sport[] = [];
-  name: string;
-  country: string;
-  sport: string;
+  allDisciplines: Discipline[];
+  showDisciplines: Discipline[];
+  name: string = "";
+  country: string = null;
+  sport: string = null;
+  discipline: string = null;
+  gender: string = null;
+  hasMedals: boolean = false;
 
   page1 = 1;
   page2 = 1;
@@ -66,57 +78,75 @@ export class HomepageComponent implements OnInit {
     return (!str || str.length === 0);
   }
 
+  sportChanged(sport: string) {
+    this.discipline = null;
+
+    console.log(this.allDisciplines);
+    console.log(sport);
+    this.showDisciplines = this.allDisciplines.filter((oneDiscipline: Discipline) => {
+
+      return oneDiscipline.sport == sport;
+    })
+  }
+
+  searchByName: boolean;
+  searchByCountry: boolean;
+  searchBySport: boolean;
+  searchByDiscipline: boolean;
+  searchByGender: boolean;
+  searchOnlyWithMedals: boolean;
+
+
+  serachHelperObj: any = {
+    searchByName: false,
+    searchByCountry: false,
+    searchBySport: false,
+    searchByDiscipline: false,
+    searchByGender: false,
+    searchOnlyWithMedals: false,
+
+    name: null,
+    country: null,
+    sport: null,
+    discipline: null,
+    gender: null,
+    medals: false
+  }
+
   search() {
-    if (this.isEmpty(this.name) && this.country == null && this.sport == null) {
-      this.sportistService.getAllSportists().subscribe((data: Sportist[]) => {
-        this.allSportists = data;
-      })
-    }
-    else {
-      if (!this.isEmpty(this.name) && this.country != null && this.sport != null) {
-        this.sportistService.getSportists(this.name, this.country, this.sport).subscribe((data: Sportist[]) => {
-          this.allSportists = data;
-        })
-      }
-      else if (!this.isEmpty(this.name) && this.country != null) {
-        this.sportistService.getSportistsByNameAndCountry(this.name, this.country).subscribe((data: Sportist[]) => {
-          this.allSportists = data;
+    this.searchByName = false;
+    this.searchBySport = false;
+    this.searchByDiscipline = false;
+    this.searchByCountry = false;
+    this.searchByGender = false;
+    this.searchOnlyWithMedals = false;
 
-        })
-      }
-      else if (!this.isEmpty(this.name) && this.sport != null) {
-        this.sportistService.getSportistsByNameAndSport(this.name, this.sport).subscribe((data: Sportist[]) => {
-          this.allSportists = data;
+    if (!this.isEmpty(this.name)) this.searchByName = true;
+    if (this.country != null) this.searchByCountry = true;
+    if (this.sport != null) this.searchBySport = true;
+    if (this.discipline != null) this.searchByDiscipline = true;
+    if (this.gender != null) this.searchByGender = true;
+    if (this.hasMedals) this.searchOnlyWithMedals = true;
 
-        })
-      }
-      else if (this.country != null && this.sport != null) {
-        this.sportistService.getSportistsByCountryAndSport(this.country, this.sport).subscribe((data: Sportist[]) => {
-          this.allSportists = data;
+    this.serachHelperObj.searchByName = this.searchByName;
+    this.serachHelperObj.searchBySport = this.searchBySport;
+    this.serachHelperObj.searchByDiscipline = this.searchByDiscipline;
+    this.serachHelperObj.searchByCountry = this.searchByCountry;
+    this.serachHelperObj.searchByGender = this.searchByGender;
+    this.serachHelperObj.searchOnlyWithMedals = this.searchOnlyWithMedals;
 
-        })
-      }
-      else if (!this.isEmpty(this.name)) {
-        this.sportistService.getSportistsByName(this.name).subscribe((data: Sportist[]) => {
-          this.allSportists = data;
+    this.serachHelperObj.name = this.name;
+    this.serachHelperObj.sport = this.sport;
+    this.serachHelperObj.discipline = this.discipline;
+    this.serachHelperObj.country = this.country;
+    this.serachHelperObj.gender = this.gender;
+    this.serachHelperObj.medals = this.hasMedals;
 
-        })
-      }
-      else if (this.country != null) {
-        console.log(this.country);
-        this.sportistService.getSportistsByCountry(this.country).subscribe((data: Sportist[]) => {
-          this.allSportists = data;
 
-        })
-      }
-      else if (this.sport != null) {
-        this.sportistService.getSportistsBySport(this.sport).subscribe((data: Sportist[]) => {
-          this.allSportists = data;
+    this.sportistService.getSportistsBySearch(this.serachHelperObj).subscribe((data: Sportist[]) => {
+      this.allSportists = data;
+    })
 
-        })
-      }
-
-    }
   }
 
 

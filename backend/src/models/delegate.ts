@@ -18,12 +18,7 @@ let Delegate = new Schema ({
 
     number:{
         type: Number
-    },
-
-    disciplines:{
-        type: Array
     }
-
 }
 );
 

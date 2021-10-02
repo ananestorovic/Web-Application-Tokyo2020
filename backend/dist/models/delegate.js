@@ -17,9 +17,6 @@ let Delegate = new Schema({
     },
     number: {
         type: Number
-    },
-    disciplines: {
-        type: Array
     }
 });
 exports.default = mongoose_1.default.model('Delegate', Delegate, 'delegates');

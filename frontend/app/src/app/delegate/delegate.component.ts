@@ -25,7 +25,14 @@ export class DelegateComponent implements OnInit {
 
   constructor(private router: Router, private competitionService: CompetitionService, private signedParticipantService: SignedParticipantService,
     private resultService: ResultService, private roundService: RoundService,
-    private sportistService: SportistService, private medalService: MedalService) { }
+    private sportistService: SportistService, private medalService: MedalService) {
+
+    let user: User = JSON.parse(localStorage.getItem("loggedIn"));
+    if (user == null || user.type != "Delegate") {
+      this.router.navigate(['homepage']);
+    }
+
+  }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('loggedIn'));
@@ -90,14 +97,14 @@ export class DelegateComponent implements OnInit {
   resultsAdditional: Array<string> = [];
   p: string;
   participantsFromAdditional: Array<string> = [];
-  participantAdditional: string;
+  participantAdditional: string = null;
   finalParticipants: Array<string> = [];
   finalResults: Array<string> = [];
   first: string;
   second: string;
   third: string;
-  finalResult: string;
-  finalParticipant: string;
+  finalResult: string = "";
+  finalParticipant: string = null;
   participantsForFinal: Array<string> = [];
   resultsForFinal: Array<string> = [];
   sportist1: Sportist;
@@ -222,16 +229,16 @@ export class DelegateComponent implements OnInit {
   // doneRound(){} //imam sve za ovo
 
   addRound() {
-    //NE SME MANJE OD 8 rezultata
-    // if (this.results.length < 7) {
-    //   this.message1 = "Minimum number of result is 8!";
-    //   return;
-    // }
-    // if (this.numOfParticipant == 0) return;
-    // if (this.results.length != this.numOfParticipant) {
-    //   this.message1 = "You did not enter results for all competitors!";
-    //   return;
-    // }
+    // NE SME MANJE OD 8 rezultata
+    if (this.results.length < 8) {
+      this.message1 = "Minimum number of result is 8!";
+      return;
+    }
+    if (this.numOfParticipant == 0) return;
+    if (this.results.length != this.numOfParticipant) {
+      this.message1 = "You did not enter results for all competitors!";
+      return;
+    }
     this.roundService.addRound(this.competition2, this.results, this.participants, 0, "YES").subscribe(resp => {
       console.log(resp);
       this.message1 = "Results for this round have been added!"
@@ -353,10 +360,10 @@ export class DelegateComponent implements OnInit {
       console.log(resp);
     })
     await this.theFirstThree(this.competition3.competition, 1);
-    // this.resultsForFinal = [];
-    // this.participantsForFinal = [];
-    // this.finalParticipants = [];
-    // this.finalResults = [];
+    this.resultsForFinal = [];
+    this.participantsForFinal = [];
+    this.finalParticipants = [];
+    this.finalResults = [];
     try {
       this.sportist1 = await this.sportistService.getSportistByName(this.first).toPromise() as Sportist;
       await this.sportistService.updateMedalCount(this.sportist1.name).toPromise();

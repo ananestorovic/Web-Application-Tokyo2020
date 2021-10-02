@@ -1,5 +1,5 @@
 import express from 'express';
-import user from '../models/user';
+
 import Delegate from '../models/delegate'
 
 export class DelegateController {
